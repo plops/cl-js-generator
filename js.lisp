@@ -1,6 +1,33 @@
 ;; sudo pacman -S python-jsbeautifier
 ;; https://blog.glyphobet.net/essay/2557/
-(in-package :cl-py-generator)
+;; https://jlongster.com/Outlet--My-Lisp-to-Javascript-Experiment
+;; https://github.com/jlongster/outlet
+;; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
+
+;; lambda
+;; setf
+;; use this to define def
+;; missing arguments are undefined, extra are in 'arguments' object
+
+;; semicolon separates statements
+
+;; global scope is shared between all js files (use anonymous function
+;; to separate). in js the single way to create scope is a new
+;; function
+
+;; variables can be defined anywhere but the declaration is 'hoisted'
+;; to the beginning -> i think i should expose this
+
+;; assign methods to object's prototype, don't forget new!
+
+;; the keyword this usually refers to the object before the point but
+;; can be changed with apply and call
+
+
+
+(defpackage #:cl-js-generator
+    (:use #:cl))
+(in-package #:cl-js-generator)
 (setf (readtable-case *readtable*) :invert)
 
 (defparameter *file-hashes* (make-hash-table))
@@ -46,14 +73,16 @@
 (defparameter *env-macros* nil)
 
 
+(emit-js :code
+	 `(dot bla woa fup))
 
-(defun emit-py (&key code (str nil) (clear-env nil) (level 0))
+(defun emit-js (&key code (str nil) (clear-env nil) (level 0))
   ;(format t "emit ~a ~a~%" level code)
   (when clear-env
     (setf *env-functions* nil
 	  *env-macros* nil))
   (flet ((emit (code &optional (dl 0))
-	   (emit-py :code code :clear-env nil :level (+ dl level))))
+	   (emit-js :code code :clear-env nil :level (+ dl level))))
     (if code
 	(if (listp code)
 	    (case (car code)
