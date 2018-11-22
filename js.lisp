@@ -1,6 +1,5 @@
-;(ql:quickload "optima")
-;(ql:quickload "alexandria")
-
+;; sudo pacman -S python-jsbeautifier
+;; https://blog.glyphobet.net/essay/2557/
 (in-package :cl-py-generator)
 (setf (readtable-case *readtable*) :invert)
 
@@ -25,10 +24,7 @@
 			  :if-exists :supersede
 			  :if-does-not-exist :create)
 	 (write-sequence code-str s))
-       #+nil
-
-       (sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
-       (sb-ext:run-program "/usr/bin/yapf" (list (namestring fn)))))))
+       (sb-ext:run-program "/usr/bin/js-beautify" (list (namestring fn)))))))
 
 (defun print-sufficient-digits-f64 (f)
   "print a double floating point number as a string with a given nr. of
