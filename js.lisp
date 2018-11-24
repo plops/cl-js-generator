@@ -33,9 +33,10 @@
 ;; 80 rest arguments look like this: `function trivialNew(constructor, ...args) {`
 
 ;; 90 i think i have to introduce let (using call to unnamed lambda)
+(ql:quickload "alexandria")
 
 (defpackage #:cl-js-generator
-    (:use #:cl))
+    (:use #:cl #:alexandria))
 (in-package #:cl-js-generator)
 (setf (readtable-case *readtable*) :invert)
 
@@ -81,16 +82,26 @@
 (defparameter *env-functions* nil)
 (defparameter *env-macros* nil)
 
+(defun test ()
+ (loop for e in `((dot bla woa fup)
+		  (setf a 3)
+		  (do (setf a 3
+			    b 4))
+		  (do bla
+		      fuoo)
+		  (def bla (foo) (setf x 1))
+		  (def bla (foo &key (bla 3) (foo 4)) (setf x 1))
+		  (def bla (foo &rest rest) (setf x 1)))
+      and i from 0
+    do
+      (format t "~d:~%~a~%" i
 
-(loop for e in `((dot bla woa fup)
-		 (setf a 3)
-		 (do (setf a 3
-			   b 4))
-		 (do bla
-		     fuoo))
-   do
-     (format t "~A~%"
-      (emit-js :code e)))
+	   (emit-js :code e))))
+
+
+
+
+
 
 (defun emit-js (&key code (str nil) (clear-env nil) (level 0))
   ;(format t "emit ~a ~a~%" level code)
@@ -117,9 +128,9 @@
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
 	      (statement (with-output-to-string (s)
-			   (format s "~{~a;~}" (mapcar #'emit (cdr code)))))
+			   (format s "~{~a;~%~}" (mapcar #'(lambda (x) (emit `(indent ,x))) (cdr code)))))
 	      (do (with-output-to-string (s)
-		    (format s "~{~a~%~}" (mapcar #'(lambda (x) (emit `(indent (statement ,x)) 1)) (cdr code)))))
+		    (format s "~{~a~}" (mapcar #'(lambda (x) (emit `(statement ,x) 1)) (cdr code)))))
 	      
 	      (do0 (with-output-to-string (s)
 		     (format s "~a~%~{~a~%~}"
@@ -142,6 +153,7 @@
 				 (if (cdr body)
 				     (break "body ~a should have only one entry" body)
 				     (emit (car body))))))))
+	      
 	      (def (destructuring-bind (name lambda-list &rest body) (cdr code)
 		     (multiple-value-bind (req-param opt-param res-param
 						     key-param other-key-p aux-param key-exist-p)
@@ -149,15 +161,20 @@
 		       (declare (ignorable req-param opt-param res-param
 					   key-param other-key-p aux-param key-exist-p))
 		       (with-output-to-string (s)
-			 (format s "def ~a~a:~%"
+			 ;; function bla (para) {
+			 ;; function bla (para, ...rest) {
+			 ;; function bla ({ from = 0, to = this.length } = {}) {
+			 (format s "function ~a(~a)"
 				 name
 				 (emit `(paren ,@(append req-param
 							 (loop for e in key-param collect 
 							      (destructuring-bind ((keyword-name name) init suppliedp)
 								  e
 								(declare (ignorable keyword-name suppliedp))
-								`(= ,name ,init)))))))
-			 (format s "~a" (emit `(do ,@body)))))))
+								`(= ,name ,init)))
+							 (when res-param
+							   (list (format nil "...~a" res-param)))))))
+			 (format s "{~a}" (emit `(do ,@body)))))))
 	      (in (destructuring-bind (a b) (cdr code)
 		    (format nil "(~a in ~a)" (emit a) (emit b))))
 	      (= (destructuring-bind (a b) (cdr code)
