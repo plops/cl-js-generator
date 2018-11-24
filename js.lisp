@@ -6,24 +6,33 @@
 
 ;; lambda
 ;; setf
-;; use this to define def
-;; missing arguments are undefined, extra are in 'arguments' object
+;; 10 use this to define def
+;; 20 missing arguments are undefined, extra are in 'arguments' object
 
-;; semicolon separates statements
+;; 30 semicolon separates statements
 
-;; global scope is shared between all js files (use anonymous function
+;; 40 global scope is shared between all js files (use anonymous function
 ;; to separate). in js the single way to create scope is a new
 ;; function
 
-;; variables can be defined anywhere but the declaration is 'hoisted'
+;; 50 variables can be defined anywhere but the declaration is 'hoisted'
 ;; to the beginning -> i think i should expose this
 
-;; assign methods to object's prototype, don't forget new!
+;; 60 assign methods to object's prototype, don't forget new!
 
-;; the keyword this usually refers to the object before the point but
-;; can be changed with apply and call
+;; 70 the keyword 'this' usually refers to the object before the point but
+;; can be changed with apply and call; the global object of the browser is called `window`
 
+;; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
+;; communication to webworker https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
 
+;; https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript
+
+;; 11 lambdas can have a name for recursive function calls
+
+;; 80 rest arguments look like this: `function trivialNew(constructor, ...args) {`
+
+;; 90 i think i have to introduce let (using call to unnamed lambda)
 
 (defpackage #:cl-js-generator
     (:use #:cl))
@@ -73,8 +82,15 @@
 (defparameter *env-macros* nil)
 
 
-(emit-js :code
-	 `(dot bla woa fup))
+(loop for e in `((dot bla woa fup)
+		 (setf a 3)
+		 (do (setf a 3
+			   b 4))
+		 (do bla
+		     fuoo))
+   do
+     (format t "~A~%"
+      (emit-js :code e)))
 
 (defun emit-js (&key code (str nil) (clear-env nil) (level 0))
   ;(format t "emit ~a ~a~%" level code)
@@ -86,12 +102,8 @@
     (if code
 	(if (listp code)
 	    (case (car code)
-	      (tuple (let ((args (cdr code)))
-		       (format nil "(~{~a,~})" (mapcar #'emit args))))
 	      (paren (let ((args (cdr code)))
 		       (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
-	      (ntuple (let ((args (cdr code)))
-		       (format nil "~{~a~^, ~}" (mapcar #'emit args))))
 	      (list (let ((args (cdr code)))
 		      (format nil "[~{~a~^, ~}]" (mapcar #'emit args))))
               (dict (let* ((args (cdr code)))
@@ -104,13 +116,11 @@
 	      (indent (format nil "~{~a~}~a"
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
+	      (statement (with-output-to-string (s)
+			   (format s "~{~a;~}" (mapcar #'emit (cdr code)))))
 	      (do (with-output-to-string (s)
-		    (format s "~{~a~%~}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
-	      (class (destructuring-bind (name parents &rest body) (cdr code)
-		       (format nil "class ~a~a:~%~a"
-			       name
-			       (emit `(paren ,@parents))
-			       (emit `(do ,@body)))))
+		    (format s "~{~a~%~}" (mapcar #'(lambda (x) (emit `(indent (statement ,x)) 1)) (cdr code)))))
+	      
 	      (do0 (with-output-to-string (s)
 		     (format s "~a~%~{~a~%~}"
 			     (emit (cadr code))
@@ -148,13 +158,15 @@
 								(declare (ignorable keyword-name suppliedp))
 								`(= ,name ,init)))))))
 			 (format s "~a" (emit `(do ,@body)))))))
+	      (in (destructuring-bind (a b) (cdr code)
+		    (format nil "(~a in ~a)" (emit a) (emit b))))
 	      (= (destructuring-bind (a b) (cdr code)
 		   (format nil "~a=~a" (emit a) (emit b))))
-	      (in (destructuring-bind (a b) (cdr code)
-		   (format nil "(~a in ~a)" (emit a) (emit b))))
 	      (setf (let ((args (cdr code)))
 		      (format nil "~a"
-			      (emit `(do0 
+			      (emit `(,(if (eq (length args) 2)
+					   `do0
+					   `statement)
 				      ,@(loop for i below (length args) by 2 collect
 					     (let ((a (elt args i))
 						   (b (elt args (+ 1 i))))
