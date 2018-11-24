@@ -89,6 +89,7 @@
 			    b 4))
 		  (do bla
 		      fuoo)
+		  (dict (a 1) (b 2))
 		  (def bla (foo) (setf x 1))
 		  (def bla (foo &key (bla 3) (foo 4)) (setf x 1))
 		  (def bla (foo &rest rest) (setf x 1)))
@@ -121,7 +122,7 @@
 		      (let ((str (with-output-to-string (s)
 				   (loop for (e f) in args
 				      do
-					(format s "(~a):(~a)," (emit e) (emit f))))))
+					(format s "(~a)=(~a)," (emit e) (emit f))))))
 			(format nil "{~a}" ;; remove trailing comma
 				(subseq str 0 (- (length str) 1))))))
 	      (indent (format nil "~{~a~}~a"
@@ -164,14 +165,17 @@
 			 ;; function bla (para) {
 			 ;; function bla (para, ...rest) {
 			 ;; function bla ({ from = 0, to = this.length } = {}) {
-			 (format s "function ~a(~a)"
+			 (format s "function ~a~a"
 				 name
 				 (emit `(paren ,@(append req-param
-							 (loop for e in key-param collect 
-							      (destructuring-bind ((keyword-name name) init suppliedp)
-								  e
-								(declare (ignorable keyword-name suppliedp))
-								`(= ,name ,init)))
+							 (when key-param
+							  `((setf (dict
+							      ,@(loop for e in key-param collect
+								     (destructuring-bind ((keyword-name name) init suppliedp)
+									 e
+								       (declare (ignorable keyword-name suppliedp))
+								       `(,name ,init))))
+								  "{}")))
 							 (when res-param
 							   (list (format nil "...~a" res-param)))))))
 			 (format s "{~a}" (emit `(do ,@body)))))))
