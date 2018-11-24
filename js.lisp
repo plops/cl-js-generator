@@ -92,7 +92,8 @@
 		  (dict (a 1) (b 2))
 		  (def bla (foo) (setf x 1))
 		  (def bla (foo &key (bla 3) (foo 4)) (setf x 1))
-		  (def bla (foo &rest rest) (setf x 1)))
+		  (def bla (foo &rest rest) (setf x 1))
+		  (lambda (x y) (+ x y)))
       and i from 0
     do
       (format t "~d:~%~a~%" i
@@ -137,23 +138,7 @@
 		     (format s "~a~%~{~a~%~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
-	      (lambda (destructuring-bind (lambda-list &rest body) (cdr code)
-		     (multiple-value-bind (req-param opt-param res-param
-						     key-param other-key-p aux-param key-exist-p)
-			 (parse-ordinary-lambda-list lambda-list)
-		       (declare (ignorable req-param opt-param res-param
-					   key-param other-key-p aux-param key-exist-p))
-		       (with-output-to-string (s)
-			 (format s "lambda ~a: ~a"
-				 (emit `(ntuple ,@(append req-param
-							 (loop for e in key-param collect 
-							      (destructuring-bind ((keyword-name name) init suppliedp)
-								  e
-								(declare (ignorable keyword-name suppliedp))
-								`(= ,name ,init))))))
-				 (if (cdr body)
-				     (break "body ~a should have only one entry" body)
-				     (emit (car body))))))))
+	      (lambda (format nil "~a" (emit `(def "" ,@(cdr code)))))
 	      
 	      (def (destructuring-bind (name lambda-list &rest body) (cdr code)
 		     (multiple-value-bind (req-param opt-param res-param
