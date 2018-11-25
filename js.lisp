@@ -69,9 +69,7 @@
 		   :code code)))
     (with-input-from-string (s code-str)
       (with-output-to-string (o)
-	(format t "start~%")
-	(sb-ext:run-program "/usr/bin/js-beautify" (list "-i") :input s :output o :wait t)
-	(format t "end~%")))))
+	(sb-ext:run-program "/usr/bin/js-beautify" (list "-i") :input s :output o :wait t)))))
 
 #+nil
 (beautify-source '(setf a 3))
@@ -217,15 +215,15 @@
 				  (emit `(statement (setf ,var ,init-form))))))
 	      (let (destructuring-bind (decls &rest body) (cdr code)
 		     (format nil "~a"
-			     (emit `((lambda ()
-				       ,@(loop for d in decls collect
-					      (destructuring-bind (name val &key (type 'let)) d
-						(ecase type
-						  ('let `(let-decl ,name ,val))
-						  ('var `(var-decl ,name ,val))
-						  ('const `(const-decl ,name ,val))
-						  (t (break "unknown type in let")))))
-				       ,@body))))))
+			     (emit `(statement ((lambda ()
+					,@(loop for d in decls collect
+					       (destructuring-bind (name val &key (type 'let)) d
+						 (ecase type
+						   ('let `(let-decl ,name ,val))
+						   ('var `(var-decl ,name ,val))
+						   ('const `(const-decl ,name ,val))
+						   (t (break "unknown type in let")))))
+					,@body)))))))
 	      (aref (destructuring-bind (name &rest indices) (cdr code)
 		      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
 	      (slice (let ((args (cdr code)))
@@ -242,6 +240,8 @@
 		   (format nil "(~{(~a)~^*~})" (mapcar #'emit args))))
 	      (== (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^==~})" (mapcar #'emit args))))
+	      (=== (let ((args (cdr code)))
+		    (format nil "(~{(~a)~^===~})" (mapcar #'emit args))))
 	      (!= (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^!=~})" (mapcar #'emit args))))
 	      (< (let ((args (cdr code)))
