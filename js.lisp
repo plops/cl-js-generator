@@ -341,7 +341,7 @@
 					   (elt args i)))
 			  (plist (subseq args (length positional)))
 			  (props (loop for e in plist by #'cddr collect e)))
-		     (format nil "~a~a" name
+		     (format nil "~a~a" (if (listp name) (emit name) name)
 			     (emit `(paren ,@(append
 					      positional
 					      (loop for e in props collect
