@@ -96,7 +96,8 @@
 		  (lambda (x y) (+ x y))
 		  (if (== a 3)
 		      (setf b 3)
-		      (setf q 3)))
+		      (setf q 3))
+		  (for-in (p alph) (setf a p)))
       and i from 0
     do
       (format t "~d:~%~a~%" i
@@ -228,11 +229,17 @@
 			 (format nil "~a" (emit `(return_ ,args)))))
 	       (for (destructuring-bind ((vs ls) &rest body) (cdr code)
 		      (with-output-to-string (s)
-					;(format s "~a" (emit '(indent)))
 			(format s "for ~a in ~a:~%"
 				(emit vs)
 				(emit ls))
 			(format s "~a" (emit `(do ,@body))))))
+	       (for-in (destructuring-bind ((vs ls) &rest body) (cdr code)
+			 ;; for (var property1 in object1) {
+		      (with-output-to-string (s)
+			(format s "for (var ~a in ~a){~%"
+				(emit vs)
+				(emit ls))
+			(format s "~a}" (emit `(do ,@body))))))
 
 	       (if (destructuring-bind (condition true-statement &optional false-statement) (cdr code)
 		     (with-output-to-string (s)
@@ -243,10 +250,12 @@
 			 (format s "~a~%{~a}"
 				 (emit `(indent "else"))
 				 (emit `(do ,false-statement)))))))
+	       #+nil
 	       (import (destructuring-bind (args) (cdr code)
 			 (if (listp args)
 			     (format nil "import ~a as ~a~%" (second args) (first args))
 			     (format nil "import ~a~%" args))))
+	       #+nil
 	       (imports (destructuring-bind (args) (cdr code)
 			  (format nil "~{~a~}" (mapcar #'(lambda (x) (emit `(import ,x))) args))))
 	       #+nil (with (destructuring-bind (form &rest body) (cdr code)
