@@ -82,7 +82,14 @@
 (defparameter *env-functions* nil)
 (defparameter *env-macros* nil)
 
-(defun test ()
+
+
+
+
+
+
+(progn
+  (defun test ()
  (loop for e in `((dot bla woa fup)
 		  (setf a 3)
 		  (do (setf a 3
@@ -97,18 +104,14 @@
 		  (if (== a 3)
 		      (setf b 3)
 		      (setf q 3))
-		  (for-in (p alph) (setf a p)))
+		  (for-in (p alph) (setf a p))
+		  (for-of (o (foo)) (setf o 3))
+		  (dotimes (i n) (setf a i)))
       and i from 0
     do
       (format t "~d:~%~a~%" i
 
 	   (emit-js :code e))))
-
-
-
-
-
-(progn
  (defun emit-js (&key code (str nil) (clear-env nil) (level 0))
 					;(format t "emit ~a ~a~%" level code)
    (when clear-env
@@ -227,16 +230,31 @@
 	       (return_ (format nil "return ~a" (emit (caadr code))))
 	       (return (let ((args (cdr code)))
 			 (format nil "~a" (emit `(return_ ,args)))))
-	       (for (destructuring-bind ((vs ls) &rest body) (cdr code)
+	       (for (destructuring-bind ((start end iter) &rest body) (cdr code)
+		      ;;  for(count = 0; count < 10; count++){
 		      (with-output-to-string (s)
-			(format s "for ~a in ~a:~%"
-				(emit vs)
-				(emit ls))
-			(format s "~a" (emit `(do ,@body))))))
+			(format s "for(~a ; ~a; ~a){~%"
+				(emit start)
+				(emit end)
+				(emit iter))
+			(format s "~a}" (emit `(do ,@body))))))
+	       (dotimes (destructuring-bind ((start end) &rest body) (cdr code)
+		      ;;  for(count = 0; count < 10; count++){
+			  (with-output-to-string (s)
+			(format s "~a"
+				(emit `(for ((setf ,start 0) (< ,start ,end) (setf start (+ 1 start)))
+					    ,@body))))))
 	       (for-in (destructuring-bind ((vs ls) &rest body) (cdr code)
 			 ;; for (var property1 in object1) {
 		      (with-output-to-string (s)
 			(format s "for (var ~a in ~a){~%"
+				(emit vs)
+				(emit ls))
+			(format s "~a}" (emit `(do ,@body))))))
+	       (for-of (destructuring-bind ((vs ls) &rest body) (cdr code)
+			 ;; for (let o of foo) {
+		      (with-output-to-string (s)
+			(format s "for (let ~a of ~a){~%"
 				(emit vs)
 				(emit ls))
 			(format s "~a}" (emit `(do ,@body))))))
