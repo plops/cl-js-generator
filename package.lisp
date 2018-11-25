@@ -1,6 +1,6 @@
 (defpackage :cl-js-generator
-  (:use :cl
-	:alexandria)
+  (:use #:cl
+	#:alexandria)
   (:export
    #:tuple
    #:indent
@@ -12,4 +12,5 @@
    #:**
    #:imports
    #:try
-   #:write-source))
+   #:write-source
+   #:beautify-source))
