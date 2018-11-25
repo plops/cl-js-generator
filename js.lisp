@@ -160,7 +160,7 @@
 		      (let ((str (with-output-to-string (s)
 				   (loop for (e f) in args
 				      do
-					(format s "(~a)=(~a)," (emit e) (emit f))))))
+					(format s "(~a):(~a)," (emit e) (emit f))))))
 			(format nil "{~a}" ;; remove trailing comma
 				(subseq str 0 (- (length str) 1))))))
 	      (indent (format nil "~{~a~}~a"
