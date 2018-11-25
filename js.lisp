@@ -217,14 +217,15 @@
 				  (emit `(statement (setf ,var ,init-form))))))
 	      (let (destructuring-bind (decls &rest body) (cdr code)
 		     (format nil "~a"
-			     (emit `((function ()
-					       (loop for d in decls collect
-						    (destructuring-bind (name val &key (type 'let)) d
-						      (ecase type
-							('let `(let-decl ,name ,val))
-							('var `(var-decl ,name ,val))
-							('const `(const-decl ,name ,val))
-							(t (break "unknown type in let")))))))))))
+			     (emit `((lambda ()
+				       ,@(loop for d in decls collect
+					      (destructuring-bind (name val &key (type 'let)) d
+						(ecase type
+						  ('let `(let-decl ,name ,val))
+						  ('var `(var-decl ,name ,val))
+						  ('const `(const-decl ,name ,val))
+						  (t (break "unknown type in let")))))
+				       ,@body))))))
 	      (aref (destructuring-bind (name &rest indices) (cdr code)
 		      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
 	      (slice (let ((args (cdr code)))
