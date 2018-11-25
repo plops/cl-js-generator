@@ -41,9 +41,9 @@
 (defparameter *file-hashes* (make-hash-table))
 
 (defun write-source (name code &optional (dir (user-homedir-pathname)))
-  (let* ((fn (merge-pathnames (format nil "~a.py" name)
+  (let* ((fn (merge-pathnames (format nil "~a.js" name)
 			      dir))
-	(code-str (emit-py
+	(code-str (emit-js
 		   :clear-env t
 		   :code code))
 	(fn-hash (sxhash fn))
@@ -59,7 +59,7 @@
 			  :if-exists :supersede
 			  :if-does-not-exist :create)
 	 (write-sequence code-str s))
-       (sb-ext:run-program "/usr/bin/js-beautify" (list (namestring fn)))))))
+       (sb-ext:run-program "/usr/bin/js-beautify" (list "-r" (namestring fn)))))))
 
 (defun print-sufficient-digits-f64 (f)
   "print a double floating point number as a string with a given nr. of
@@ -221,9 +221,9 @@
 			    (emit (first args))
 			    (emit (second args)))))
 	       (and (let ((args (cdr code)))
-		      (format nil "(~{(~a)~^ and ~})" (mapcar #'emit args))))
+		      (format nil "(~{(~a)~^ && ~})" (mapcar #'emit args))))
 	       (or (let ((args (cdr code)))
-		     (format nil "(~{(~a)~^ or ~})" (mapcar #'emit args))))
+		     (format nil "(~{(~a)~^ || ~})" (mapcar #'emit args))))
 	       (string (format nil "\"~a\"" (cadr code)))
 	       (return_ (format nil "return ~a" (emit (caadr code))))
 	       (return (let ((args (cdr code)))
