@@ -35,6 +35,9 @@
 ;; 80 rest arguments look like this: `function trivialNew(constructor, ...args) {`
 
 ;; 90 i think i have to introduce let (using call to unnamed lambda)
+
+;; 100 the user program must be in package cl-js-generator (or i have to export all possible symbols)
+
 (in-package #:cl-js-generator)
 (setf (readtable-case *readtable*) :invert)
 
