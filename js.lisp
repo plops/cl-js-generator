@@ -160,7 +160,7 @@
 		      (let ((str (with-output-to-string (s)
 				   (loop for (e f) in args
 				      do
-					(format s "(~a):(~a)," (emit e) (emit f))))))
+					(format s "~a:(~a)," (emit e) (emit f))))))
 			(format nil "{~a}" ;; remove trailing comma
 				(subseq str 0 (- (length str) 1))))))
 	      (indent (format nil "~{~a~}~a"
@@ -286,6 +286,7 @@
 	      (return (let ((args (cdr code)))
 			(format nil "~a" (emit `(return_ ,args)))))
 	      (for (destructuring-bind ((start end iter) &rest body) (cdr code)
+
 		     ;;  for(count = 0; count < 10; count++){
 		     (with-output-to-string (s)
 		       (format s "for(~a ; ~a; ~a){~%"
