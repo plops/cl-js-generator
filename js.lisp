@@ -130,17 +130,7 @@
 			(lambda ()
 			  (return
 			    (=== a 3)))))
-		  (dot
-  (navigator.mediaDevices.enumerateDevices)
-  (then (lambda (devices)
-	  (return
-	    (setf devices
-		  (devices.filter
-		   (lambda (d)
-		     (const-decl bla 3)
-		     (return (===
-			      (+ 1 (string "videoinput"))
-			      (- 3 d.kind)))))))))))
+		  )
       and i from 0
     do
       (format t "~d:~%~a~%" i
@@ -239,9 +229,9 @@
 					,@(loop for d in decls collect
 					       (destructuring-bind (name val &key (type 'let)) d
 						 (ecase type
-						   ('let `(let-decl ,name ,val))
-						   ('var `(var-decl ,name ,val))
-						   ('const `(const-decl ,name ,val))
+						   (let `(let-decl ,name ,val))
+						   (var `(var-decl ,name ,val))
+						   (const `(const-decl ,name ,val))
 						   (t (break "unknown type in let")))))
 					,@body)))))))
 	      (aref (destructuring-bind (name &rest indices) (cdr code)
@@ -255,15 +245,13 @@
 	      (+ (let ((args (cdr code)))
 		   (format nil "(~{(~a)~^+~})" (mapcar #'emit args))))
 	      (- (let ((args (cdr code)))
-		   (format t "XXX -~%")
 		   (format nil "(~{(~a)~^-~})" (mapcar #'emit args))))
 	      (* (let ((args (cdr code)))
 		   (format nil "(~{(~a)~^*~})" (mapcar #'emit args))))
 	      (== (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^==~})" (mapcar #'emit args))))
 	      (=== (let ((args (cdr code)))
-		     (format t "XXX ===~%")
-		    (format nil "(~{(~a)~^===~})" (mapcar #'emit args))))
+		     (format nil "(~{(~a)~^===~})" (mapcar #'emit args))))
 	      (!= (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^!=~})" (mapcar #'emit args))))
 	      (< (let ((args (cdr code)))
@@ -363,7 +351,6 @@
 					   (elt args i)))
 			  (plist (subseq args (length positional)))
 			  (props (loop for e in plist by #'cddr collect e)))
-		     (format t "~&XXX funcall: ~a~%" name)
 		     (format nil "~a~a" (if (listp name) (emit name) name)
 			     (emit `(paren ,@(append
 					      positional
