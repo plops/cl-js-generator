@@ -205,6 +205,8 @@
 		    (format nil "(~a in ~a)" (emit a) (emit b))))
 	      (= (destructuring-bind (a b) (cdr code)
 		   (format nil "~a=~a" (emit a) (emit b))))
+	      (incf (destructuring-bind (a b) (cdr code)
+		   (format nil "~a+=~a" (emit a) (emit b))))
 	      (setf (let ((args (cdr code)))
 		      (format nil "~a"
 			      (emit `(,(if (eq (length args) 2)
@@ -321,6 +323,13 @@
 			(format s "~a~%{~a}"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
+	      (? (destructuring-bind (condition true-expr false-expr)
+		     (cdr code)
+		    (with-output-to-string (s)
+		      (format s "~a ? ~a : ~a"
+			      (emit `(paren ,condition))
+			      (emit `(paren ,true-expr))
+			      (emit `(paren ,false-expr))))))
 	      #+nil
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
