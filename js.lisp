@@ -130,6 +130,7 @@
 			(lambda ()
 			  (return
 			    (=== a 3)))))
+		  (getUserMedia :video true :audio false)
 		  )
       and i from 0
     do
@@ -362,11 +363,16 @@
 					   (elt args i)))
 			  (plist (subseq args (length positional)))
 			  (props (loop for e in plist by #'cddr collect e)))
-		     (format nil "~a~a" (if (listp name) (emit name) name)
-			     (emit `(paren ,@(append
-					      positional
-					      (loop for e in props collect
-						   `(= ,(format nil "~a" e) ,(getf plist e)))))))))))
+		     (format nil "~a~a" (if (listp name) (emit name)
+					    name)
+			     (if (and (listp props) (< 0 (length props)))
+			      (emit `(paren ,@(append
+					       positional
+					       (list `(dict
+						       ,@(loop for e in props collect
+							      `(,(format
+								  nil "~a" e) ,(getf plist e))))))))
+			      (emit `(paren ,@positional))))))))
 	    (cond
 	      ((or (symbolp code)
 		   (stringp code)) ;; print variable
