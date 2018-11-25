@@ -33,10 +33,6 @@
 ;; 80 rest arguments look like this: `function trivialNew(constructor, ...args) {`
 
 ;; 90 i think i have to introduce let (using call to unnamed lambda)
-(ql:quickload "alexandria")
-
-(defpackage #:cl-js-generator
-    (:use #:cl #:alexandria))
 (in-package #:cl-js-generator)
 (setf (readtable-case *readtable*) :invert)
 
