@@ -23,6 +23,8 @@
 ;; 70 the keyword 'this' usually refers to the object before the point but
 ;; can be changed with apply and call; the global object of the browser is called `window`
 
+;; http://asmjs.org/spec/latest/
+
 ;; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 ;; communication to webworker https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
 
