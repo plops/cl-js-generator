@@ -225,7 +225,20 @@
 				  (emit `(statement (setf ,var ,init-form))))))
 	      (const-decl (destructuring-bind (var init-form) (cdr code)
 			  (format nil "const ~a"
-				  (emit `(statement (setf ,var ,init-form))))))
+				  (emit `(statement (setf ,var
+							  ,init-form))))))
+	      ;; global, don't enclose in function
+	      (let-g (destructuring-bind (decls &rest body) (cdr code)
+		     (format nil "~a"
+			     (emit `(statement
+				     ,@(loop for d in decls collect
+					    (destructuring-bind (name val &key (type 'let)) d
+					      (ecase type
+						(let `(let-decl ,name ,val))
+						(var `(var-decl ,name ,val))
+						(const `(const-decl ,name ,val))
+						(t (break "unknown type in let")))))
+				     ,@body)))))
 	      (let (destructuring-bind (decls &rest body) (cdr code)
 		     (format nil "~a"
 			     (emit `(statement ((paren
