@@ -294,7 +294,10 @@
 	      (and (let ((args (cdr code)))
 		     (format nil "(~{(~a)~^ && ~})" (mapcar #'emit args))))
 	      (or (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^ || ~})" (mapcar #'emit args))))
+		    (format nil "(~{(~a)~^ || ~})" (mapcar #'emit
+							   args))))
+	      (not (let ((args (cdr code)))
+		    (format nil "(!(~a))" (emit (car args)))))
 	      (string (format nil "\"~a\"" (cadr code)))
 	      (return_ (format nil "return ~a" (emit (caadr code))))
 	      (return (let ((args (cdr code)))
