@@ -228,7 +228,7 @@
 				  (emit `(statement (setf ,var
 							  ,init-form))))))
 	      ;; global, don't enclose in function
-	      (let-g (destructuring-bind (decls &rest body) (cdr code)
+	      (let (destructuring-bind (decls &rest body) (cdr code)
 		     (format nil "~a"
 			     (emit `(statement
 				     ,@(loop for d in decls collect
@@ -239,7 +239,7 @@
 						(const `(const-decl ,name ,val))
 						(t (break "unknown type in let")))))
 				     ,@body)))))
-	      (let (destructuring-bind (decls &rest body) (cdr code)
+	      (let-l (destructuring-bind (decls &rest body) (cdr code)
 		     (format nil "~a"
 			     (emit `(statement ((paren
 						 (lambda ()
