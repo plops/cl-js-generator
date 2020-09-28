@@ -27,12 +27,21 @@
 		 ; (emitter (new EventEmitter))
 		 ;(path  (require (string "path")) :type const)
 		  ;(os  (require (string "os")) :type const)
-		 ,@(loop for e in `(path os fs) collect
+		 ,@(loop for e in `(path os fs http) collect
 			`(,e  (require (string ,e)) :type const)))
 	     
 	     (logger.on (string "messageLogged")
 			 (lambda (arg)
 			   (console.log (string "listener called") arg)))
+
+	     (let ((server (http.createServer) :type const))
+	       (server.on (string "connection")
+			  (lambda ()
+			    (console.log (string "new connection ..."))))
+	       (server.listen 3000)
+
+	       (console.log (string "listening on port 3000 ..."))
+	       )
 	     (defun sayHello (name)
 	       (logger.log (+ (string "hello")
 			       name)))
