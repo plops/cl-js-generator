@@ -22,8 +22,8 @@ fs.readdir("./", function(err, files) {
         console.log("Result", files);
     };
 });
-emitter.on("messageLogged", function() {
-    console.log("listener called");
+emitter.on("messageLogged", function(arg) {
+    console.log("listener called", arg);
 });
 emitter.emit("messageLogged", {
     id: (1),
