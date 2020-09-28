@@ -26,7 +26,7 @@
 		  ;(os  (require (string "os")) :type const)
 		 ,@(loop for e in `(path os fs) collect
 			`(,e  (require (string ,e)) :type const)))
-
+	     
 	     
 	     (def sayHello (name)
 	       (logger.log (+ (string "hello")
@@ -38,18 +38,23 @@
 	     (console.log (path.parse __filename))
 	     ,@(loop for e in `(totalmem freemem) collect
 		    `(console.log (string-backtick ,(format nil "~a ${os.~a()}" e e))))
-	     (console.log (fs.readdirSync (string "./"))))))
+
+	     (fs.readdir (string "./")
+			 (lambda (err files)
+			   (if err
+			       (console.log (string "Error") err)
+			       (console.log (string "Result") files))))
+	     
+	     )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
-    (write-source (format nil "~a/source/~a" *path* "logger")
+    #+nil (write-source (format nil "~a/source/~a" *path* "logger")
 		  `(let ((url (string "http://mylogger.io/log")))
 		     (def log (message)
-		       (console.log message))
+		       (console.log messag) e))
 		     ;; exports = log would export single function
 		     (setf module.exports.log log
 			  ; module.exports.endPoint url
 			   )))))
 
 
-
-
-
+ 

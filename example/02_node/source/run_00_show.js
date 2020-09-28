@@ -13,4 +13,10 @@ console.log(__dirname);
 console.log(path.parse(__filename));
 console.log(`totalmem ${os.totalmem()}`);
 console.log(`freemem ${os.freemem()}`);
-console.log(fs.readdirSync("./"));
+fs.readdir("./", function(err, files) {
+    if (err) {
+        console.log("Error", err);
+    } else {
+        console.log("Result", files);
+    };
+});
