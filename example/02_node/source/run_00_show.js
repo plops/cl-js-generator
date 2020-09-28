@@ -5,3 +5,5 @@ function sayHello(name) {
 };
 sayHello("Mosh");
 console.log(module);
+console.log(__filename);
+console.log(__dirname);
