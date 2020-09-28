@@ -21,7 +21,7 @@
 
   
   (let* ((code
-	  `(let ( (logger  (require (string "./logger")) :type const)
+	  `(let ( (log  (require (string "./logger")) :type const)
 		 (EventEmitter  (require (string "events")) :type const)
 		  (emitter (new EventEmitter))
 		 ;(path  (require (string "path")) :type const)
@@ -31,7 +31,7 @@
 	     
 	     
 	     (def sayHello (name)
-	       (logger.log (+ (string "hello")
+	       (log (+ (string "hello")
 			       name)))
 	     (sayHello (string "Mosh"))
 	     (console.log module)
@@ -49,20 +49,25 @@
 	     (emitter.on (string "messageLogged")
 			 (lambda (arg)
 			   (console.log (string "listener called") arg)))
-	     (emitter.emit (string "messageLogged")
-			   (dict (id 1)
-				 (url (string "http://")) ))
+	     
 	     )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
 
-    #+nil (write-source (format nil "~a/source/~a" *path* "logger")
-		  `(let ((url (string "http://mylogger.io/log")))
+    (write-source (format nil "~a/source/~a" *path* "logger")
+		  `(let ((url (string "http://mylogger.io/log"))
+			 (EventEmitter  (require (string "events")) :type const)
+		  (emitter (new EventEmitter))
+		 )
 		     (def log (message)
-		       (console.log messag) e))
-		     ;; exports = log would export single function
-		     (setf module.exports.log log
-			  ; module.exports.endPoint url
-			   ))
+		       (console.log message) 
+		       
+		       (emitter.emit (string "messageLogged")
+				     (dict (id 1)
+					   (url (string "http://")) )))
+		     (setf module.exports ; .log
+			   log
+					; module.exports.endPoint url
+			   )))
 
     )))
 

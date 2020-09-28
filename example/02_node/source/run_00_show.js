@@ -1,4 +1,4 @@
-const logger = require("./logger");;
+const log = require("./logger");;
 const EventEmitter = require("events");;
 let emitter = new(EventEmitter);;
 const path = require("path");;
@@ -6,7 +6,7 @@ const os = require("os");;
 const fs = require("fs");;
 
 function sayHello(name) {
-    logger.log((("hello") + (name)));
+    log((("hello") + (name)));
 };
 sayHello("Mosh");
 console.log(module);
@@ -24,8 +24,4 @@ fs.readdir("./", function(err, files) {
 });
 emitter.on("messageLogged", function(arg) {
     console.log("listener called", arg);
-});
-emitter.emit("messageLogged", {
-    id: (1),
-    url: ("http://")
 });
