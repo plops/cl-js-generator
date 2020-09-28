@@ -381,6 +381,11 @@
 			(format s "~a~%{~a}"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
+	      (when (destructuring-bind (condition &rest forms) (cdr code)
+			  (emit `(if ,condition
+				     (do0
+				      ,@forms)))))
+
 	      (? (destructuring-bind (condition true-expr false-expr)
 		     (cdr code)
 		    (with-output-to-string (s)
