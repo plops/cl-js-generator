@@ -49,7 +49,9 @@
 	     (emitter.on (string "messageLogged")
 			 (lambda ()
 			   (console.log (string "listener called"))))
-	     (emitter.emit (string "messageLogged"))
+	     (emitter.emit (string "messageLogged")
+			   (dict (id 1)
+				 (url (string "http://")) ))
 	     )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
 
