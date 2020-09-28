@@ -36,19 +36,21 @@
 	     (defun sayHello (name)
 	       (logger.log (+ (string "hello")
 			       name)))
-	     (sayHello (string "Mosh"))
-	     (console.log module)
-	     (console.log __filename)
-	     (console.log __dirname)
-	     (console.log (path.parse __filename))
-	     ,@(loop for e in `(totalmem freemem) collect
-		    `(console.log (string-backtick ,(format nil "~a ${os.~a()}" e e))))
+	     (sayHello (string "Mosh")
+		       )
+	     #+nil(do0
+	      (console.log module)
+	      (console.log __filename)
+	      (console.log __dirname)
+	      (console.log (path.parse __filename))
+	      ,@(loop for e in `(totalmem freemem) collect
+		     `(console.log (string-backtick ,(format nil "~a ${os.~a()}" e e))))
 
-	     (fs.readdir (string "./")
-			 (lambda (err files)
-			   (if err
-			       (console.log (string "Error") err)
-			       (console.log (string "Result") files))))
+	      (fs.readdir (string "./")
+			  (lambda (err files)
+			    (if err
+				(console.log (string "Error") err)
+				(console.log (string "Result") files)))))
 	     
 	     
 	     )))
