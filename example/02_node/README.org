@@ -15,3 +15,5 @@ martin@martin-ThinkPad-T460:~/stage/cl-js-generator/example/02_node$ node --vers
 v10.19.0
 #+END_EXAMPLE
 
+- global object instead of window to contain variables
+- every file defines a module with corresponding scope

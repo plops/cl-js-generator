@@ -21,12 +21,21 @@
 
   
   (let* ((code
-	  `(let ()
+	  `(let ((logger  (require (string "./logger")) :type const))
+	    
 	     (def sayHello (name)
-	       (console.log (+ (string "hello")
+	       (logger.log (+ (string "hello")
 			       name)))
-	     (sayHello (string "Mosh")))))
-    (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
+	     (sayHello (string "Mosh"))
+	     (console.log module))))
+    (write-source (format nil "~a/source/~a" *path* *code-file*) code)
+    (write-source (format nil "~a/source/~a" *path* "logger")
+		  `(let ((url (string "http://mylogger.io/log")))
+		     (def log (message)
+		       (console.log message))
+		     (setf module.exports.log log
+			  ; module.exports.endPoint url
+			   )))))
 
 
 

@@ -1,4 +1,7 @@
+const logger = require("./logger");;
+
 function sayHello(name) {
-    console.log((("hello") + (name)));
+    logger.log((("hello") + (name)));
 };
 sayHello("Mosh");
+console.log(module);
