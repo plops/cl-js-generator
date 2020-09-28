@@ -22,6 +22,8 @@
   
   (let* ((code
 	  `(let ( (logger  (require (string "./logger")) :type const)
+		 (EventEmitter  (require (string "events")) :type const)
+		  (emitter (new EventEmitter))
 		 ;(path  (require (string "path")) :type const)
 		  ;(os  (require (string "os")) :type const)
 		 ,@(loop for e in `(path os fs) collect
@@ -44,9 +46,13 @@
 			   (if err
 			       (console.log (string "Error") err)
 			       (console.log (string "Result") files))))
-	     
+	     (emitter.on (string "messageLogged")
+			 (lambda ()
+			   (console.log (string "listener called"))))
+	     (emitter.emit (string "messageLogged"))
 	     )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
+
     #+nil (write-source (format nil "~a/source/~a" *path* "logger")
 		  `(let ((url (string "http://mylogger.io/log")))
 		     (def log (message)
@@ -54,7 +60,9 @@
 		     ;; exports = log would export single function
 		     (setf module.exports.log log
 			  ; module.exports.endPoint url
-			   )))))
+			   ))
+
+    )))
 
 
  
