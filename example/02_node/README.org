@@ -17,3 +17,11 @@ v10.19.0
 
 - global object instead of window to contain variables
 - every file defines a module with corresponding scope
+
+- at runtime node wraps code with function:
+
+#+BEGIN_EXAMPLE
+(def (exports require module __filename __dirname)
+ ...
+)
+#+END_EXAMPLE

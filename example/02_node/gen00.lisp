@@ -33,6 +33,7 @@
 		  `(let ((url (string "http://mylogger.io/log")))
 		     (def log (message)
 		       (console.log message))
+		     ;; exports = log would export single function
 		     (setf module.exports.log log
 			  ; module.exports.endPoint url
 			   )))))
