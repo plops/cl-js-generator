@@ -1,6 +1,7 @@
 const logger = require("./logger");;
 const path = require("path");;
 const os = require("os");;
+const fs = require("fs");;
 
 function sayHello(name) {
     logger.log((("hello") + (name)));
@@ -12,3 +13,4 @@ console.log(__dirname);
 console.log(path.parse(__filename));
 console.log(`totalmem ${os.totalmem()}`);
 console.log(`freemem ${os.freemem()}`);
+console.log(fs.readdirSync("./"));
