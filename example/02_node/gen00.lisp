@@ -36,8 +36,14 @@
 
 	     (let ((server (http.createServer) :type const))
 	       (server.on (string "connection")
-			  (lambda ()
-			    (console.log (string "new connection ..."))))
+			  (lambda (req res)
+			    (if (=== req.url (string "/"))
+				(do0 (res.write (string "hello world"))
+				     (res.end))
+				;(res.write (string "hello world2"))
+				)
+			    (console.log (string "new connection ...")
+					)))
 	       (server.listen 3000)
 
 	       (console.log (string "listening on port 3000 ..."))

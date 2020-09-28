@@ -8,7 +8,11 @@ logger.on("messageLogged", function(arg) {
     console.log("listener called", arg);
 });
 const server = http.createServer();;
-server.on("connection", function() {
+server.on("connection", function(req, res) {
+    if (((req.url) === ("/"))) {
+        res.write("hello world")
+        res.end();
+    };
     console.log("new connection ...");
 });
 server.listen(3000);
