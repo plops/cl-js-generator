@@ -22,7 +22,8 @@
   
   (let* ((code
 	  `(let ((logger  (require (string "./logger")) :type const)
-		 (path  (require (string "path")) :type const))
+		 (path  (require (string "path")) :type const)
+		 (os  (require (string "os")) :type const))
 
 	     
 	     (def sayHello (name)
@@ -32,7 +33,9 @@
 	     (console.log module)
 	     (console.log __filename)
 	     (console.log __dirname)
-	     (console.log (path.parse __filename)))))
+	     (console.log (path.parse __filename))
+	     ,@(loop for e in `(totalmem freemem) collect
+		    `(console.log (string-backtick ,(format nil "~a ${os.~a()}" e e)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
     (write-source (format nil "~a/source/~a" *path* "logger")
 		  `(let ((url (string "http://mylogger.io/log")))
