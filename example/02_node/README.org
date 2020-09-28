@@ -25,3 +25,7 @@ v10.19.0
  ...
 )
 #+END_EXAMPLE
+
+- useful modules
+  - filesystem http os path process querystrings stream 
+  - path.parse
