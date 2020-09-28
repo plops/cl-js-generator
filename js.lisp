@@ -173,6 +173,10 @@
 			      (emit (cadr code))))
 	      (statement (with-output-to-string (s)
 			   (format s "~{~a;~%~}" (mapcar #'(lambda (x) (emit `(indent ,x))) (cdr code)))))
+	      (new
+		   ;; new arg
+		   (let ((arg (cadr code)))
+		     (format nil "new ~a" (emit arg))))
 	      (do (with-output-to-string (s)
 		    (format s "~{~a~}" (mapcar #'(lambda (x) (emit `(statement ,x) 1)) (cdr code)))))
 	      (progn (with-output-to-string (s)
@@ -183,7 +187,7 @@
 		     (format s "~a~%~{~a~%~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
-	      (lambda (format nil "~a" (emit `(def "" ,@(cdr code)))))
+	      (lambda (format nil "~a" (emit `(defun "" ,@(cdr code)))))
 	      
 	      (defun (destructuring-bind (name lambda-list &rest body) (cdr code)
 		     (multiple-value-bind (req-param opt-param res-param

@@ -21,17 +21,20 @@
 
   
   (let* ((code
-	  `(let ( (log  (require (string "./logger")) :type const)
-		 (EventEmitter  (require (string "events")) :type const)
-		  (emitter (new EventEmitter))
+	  `(let ( (Logger  (require (string "./logger")) :type const)
+		 (logger (new (Logger)) :type const)
+		 ;(EventEmitter  (require (string "events")) :type const)
+		 ; (emitter (new EventEmitter))
 		 ;(path  (require (string "path")) :type const)
 		  ;(os  (require (string "os")) :type const)
 		 ,@(loop for e in `(path os fs) collect
 			`(,e  (require (string ,e)) :type const)))
 	     
-	     
+	     (logger.on (string "messageLogged")
+			 (lambda (arg)
+			   (console.log (string "listener called") arg)))
 	     (defun sayHello (name)
-	       (log (+ (string "hello")
+	       (logger.log (+ (string "hello")
 			       name)))
 	     (sayHello (string "Mosh"))
 	     (console.log module)
@@ -46,9 +49,7 @@
 			   (if err
 			       (console.log (string "Error") err)
 			       (console.log (string "Result") files))))
-	     (emitter.on (string "messageLogged")
-			 (lambda (arg)
-			   (console.log (string "listener called") arg)))
+	     
 	     
 	     )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
@@ -56,17 +57,17 @@
     (write-source (format nil "~a/source/~a" *path* "logger")
 		  `(let ((url (string "http://mylogger.io/log"))
 			 (EventEmitter  (require (string "events")) :type const)
-		  (emitter (new EventEmitter))
+			 ;(emitter (new EventEmitter))
 			 )
-		     (defclass Logger
+		     (defclass "Logger extends EventEmitter"
 			    (defmethod log (message)
 			      (console.log message) 
 			      
-			      (emitter.emit (string "messageLogged")
+			      (this.emit (string "messageLogged")
 					    (dict (id 1)
 						  (url (string "http://")) ))))
 		     (setf module.exports ; .log
-			   log
+			   Logger
 					; module.exports.endPoint url
 			   )))
 
