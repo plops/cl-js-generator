@@ -15,13 +15,10 @@ console.log(__dirname);
 console.log(path.parse(__filename));
 console.log(`totalmem ${os.totalmem()}`);
 console.log(`freemem ${os.freemem()}`);
-fs.readdir("./", function(err, files) {
+fs.readdir("./", def(, err(files),
     if (err) {
         console.log("Error", err);
     } else {
         console.log("Result", files);
-    };
-});
-emitter.on("messageLogged", function(arg) {
-    console.log("listener called", arg);
-});
+    }));
+emitter.on("messageLogged", def(, arg(), console.log("listener called", arg)));

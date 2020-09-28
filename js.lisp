@@ -164,6 +164,10 @@
 					(format s "~a:(~a)," (emit e) (emit f))))))
 			(format nil "{~a}" ;; remove trailing comma
 				(subseq str 0 (- (length str) 1))))))
+	      (space
+		   ;; space {args}*
+		   (let ((args (cdr code)))
+		     (format nil "~{~a~^ ~}" (mapcar #'emit args))))
 	      (indent (format nil "~{~a~}~a"
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
@@ -171,14 +175,17 @@
 			   (format s "~{~a;~%~}" (mapcar #'(lambda (x) (emit `(indent ,x))) (cdr code)))))
 	      (do (with-output-to-string (s)
 		    (format s "~{~a~}" (mapcar #'(lambda (x) (emit `(statement ,x) 1)) (cdr code)))))
-	      
+	      (progn (with-output-to-string (s)
+			   ;; progn {form}*
+			   ;; like do but surrounds forms with braces.
+			   (format s "{~{~&~a~}~&}" (mapcar #'(lambda (x) (emit `(indent (do0 ,x)) 1)) (cdr code)))))
 	      (do0 (with-output-to-string (s)
 		     (format s "~a~%~{~a~%~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
 	      (lambda (format nil "~a" (emit `(def "" ,@(cdr code)))))
 	      
-	      (def (destructuring-bind (name lambda-list &rest body) (cdr code)
+	      (defun (destructuring-bind (name lambda-list &rest body) (cdr code)
 		     (multiple-value-bind (req-param opt-param res-param
 						     key-param other-key-p aux-param key-exist-p)
 			 (parse-ordinary-lambda-list lambda-list)
@@ -189,6 +196,34 @@
 			 ;; function bla (para, ...rest) {
 			 ;; function bla ({ from = 0, to = this.length } = {}) {
 			 (format s "function ~a~a"
+				 name
+				 (emit `(paren ,@(append req-param
+							 (when key-param
+							   `((setf (dict
+								    ,@(loop for e in key-param collect
+									   (destructuring-bind ((keyword-name name) init suppliedp)
+									       e
+									     (declare (ignorable keyword-name suppliedp))
+									     `(,name ,init))))
+								   "{}")))
+							 (when res-param
+							   (list (format nil "...~a" res-param)))))))
+			 (format s "{~a}" (emit `(do ,@body)))))))
+	      (defclass (let ((args (cdr code)))
+			  (destructuring-bind (name &rest rest) args
+			   (emit `(space ,(format nil "class ~a" name)
+				    (progn ,@rest))))))
+	      (defmethod (destructuring-bind (name lambda-list &rest body) (cdr code)
+		     (multiple-value-bind (req-param opt-param res-param
+						     key-param other-key-p aux-param key-exist-p)
+			 (parse-ordinary-lambda-list lambda-list)
+		       (declare (ignorable req-param opt-param res-param
+					   key-param other-key-p aux-param key-exist-p))
+		       (with-output-to-string (s)
+			 ;; function bla (para) {
+			 ;; function bla (para, ...rest) {
+			 ;; function bla ({ from = 0, to = this.length } = {}) {
+			 (format s "~a~a"
 				 name
 				 (emit `(paren ,@(append req-param
 							 (when key-param

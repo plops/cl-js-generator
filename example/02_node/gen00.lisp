@@ -30,7 +30,7 @@
 			`(,e  (require (string ,e)) :type const)))
 	     
 	     
-	     (def sayHello (name)
+	     (defun sayHello (name)
 	       (log (+ (string "hello")
 			       name)))
 	     (sayHello (string "Mosh"))
@@ -57,13 +57,14 @@
 		  `(let ((url (string "http://mylogger.io/log"))
 			 (EventEmitter  (require (string "events")) :type const)
 		  (emitter (new EventEmitter))
-		 )
-		     (def log (message)
-		       (console.log message) 
-		       
-		       (emitter.emit (string "messageLogged")
-				     (dict (id 1)
-					   (url (string "http://")) )))
+			 )
+		     (defclass Logger
+			    (defmethod log (message)
+			      (console.log message) 
+			      
+			      (emitter.emit (string "messageLogged")
+					    (dict (id 1)
+						  (url (string "http://")) ))))
 		     (setf module.exports ; .log
 			   log
 					; module.exports.endPoint url
