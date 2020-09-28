@@ -1,5 +1,17 @@
+#+BEGIN_EXAMPLE
 https://www.youtube.com/watch?v=TlB_eWDSMt4
 Node.js Tutorial for Beginners: Learn Node in 1 Hour | Mosh
 2,595,388 views
 22 Feb 2018
+
+#+END_EXAMPLE
+
+
+- runtime environment for javascript
+- asynchronous by default
+
+#+BEGIN_EXAMPLE
+martin@martin-ThinkPad-T460:~/stage/cl-js-generator/example/02_node$ node --version
+v10.19.0
+#+END_EXAMPLE
 
