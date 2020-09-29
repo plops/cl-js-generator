@@ -30,10 +30,12 @@
   
   (let* ()
     (write-source (format nil "~a/app/main" *path*)
-		  `(let (("{app}" (require (string "electron")) :type const))
+		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
+			 (mainWindow null))
 		     (app.on (string "ready")
 			     (lambda ()
-			       (console.log (string "hello from electron"))))))))
+			       (console.log (string "hello from electron"))
+			       (setf mainWindow (new BrowserWindow))))))))
 
 
 
