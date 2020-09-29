@@ -1,7 +1,11 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "cl-js-generator"))
+  (mapc #'ql:quickload `("cl-js-generator"
+			 "cl-who")))
 
 (in-package :cl-js-generator)
+
+(setq cl-who:*attribute-quote-char* #\")
+(setf cl-who::*html-mode* :html5)
 
 
 ;; bookmark list application from Steve Kinney: Electron in Action p. 18
@@ -29,6 +33,15 @@
 
   
   (let* ()
+    (with-open-file (s (format nil "~a/app/index.html" *path*)
+		       :direction :output
+		       :if-exists :supersede
+		       :if-does-not-exist :create)
+      (cl-who:with-html-output (s nil)
+	(cl-who:htm
+	 (:html
+	  (:head)
+	  (:body)))))
     (write-source (format nil "~a/app/main" *path*)
 		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
 			 (mainWindow null))
