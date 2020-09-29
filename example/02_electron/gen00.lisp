@@ -45,12 +45,14 @@
 	   (:meta :http-equiv "Content-Security-Policy"
 		  :content "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *")
 	   (:meta :name "viewport"
-		  :content "width=device-iwdth,initial-scale=1")
+		  :content "width=device-width,initial-scale=1")
 	   (:title "bookmarker"))
 	  (:body
 	   (:h1 "Hello from Electron")
 	   (:p (:button :class "alert"
-			"current directory")))))))
+			"current directory"))
+	   (:script "const button=document.querySelector('.alert');
+button.addEventListener('click',()=>{alert(__dirname);});"))))))
     (write-source (format nil "~a/app/main" *path*)
 		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
 			 (mainWindow null))
