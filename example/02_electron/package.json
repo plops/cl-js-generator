@@ -1,0 +1,11 @@
+{
+  "name": "02_electron",
+  "version": "1.0.0",
+  "description": "first electron app",
+  "main": "./app/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
