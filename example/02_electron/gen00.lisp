@@ -86,7 +86,7 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		       ;; https://www.electronjs.org/docs/tutorial/first-app
 		       (setf mainWindow (new (BrowserWindow
 					      (dict
-					       (width 1480)
+					       (width 1450)
 					       (height 600)
 					       (webPreferences (dict ;(worldSafeExecuteJavaScript true)
 									  (nodeIntegration true))))
@@ -97,17 +97,16 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		     (dot app
 			  (whenReady)
 			  (then createWindow))
-		     (
+		     #-nil (
 		      (require (string "electron-reload"))
 		      __dirname)
-		     #+nil (when isDev
-			     (
-			(require (string "electron-reload"))
-			__dirname
-			(dict (electron (path.join __dirname
-						   (string "node_modules")
-						   (string ".bin")
-						   (string "electron"))))))
+		     #+nil (
+		      (require (string "electron-reload"))
+			    __dirname
+			    (dict (electron (path.join __dirname
+						       (string "node_modules")
+						       (string ".bin")
+						       (string "electron")))))
 		     
 		     (app.on (string "window-all-closed")
 			     (lambda ()
@@ -147,6 +146,31 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 				      (localStorage.setItem url
 							    (JSON.stringify (dict (title title)
 										  (url url)))))
+			   :type const)
+			 (getLinks (lambda ()
+				     (return (dot (Object.keys localStorage)
+						  (map (lambda (key)
+							 (JSON.parse (localStorage.getItem key)))))))
+			   :type const)
+
+			 (convertToElement (lambda (link)
+					     (return
+					       (string-backtick
+						,(cl-who:with-html-output-to-string (s)
+						   (cl-who:htm
+						    (:div :class "link"
+							  (:h3 "${link.title}")
+							  (:p (:a :href "${link.url}"
+								  "${link.url}")
+							      )))))))
+			   :type const)
+			 (renderLinks (lambda ()
+					(let ((linkElements (dot (getLinks)
+								 (map convertToElement)
+								 (join (string "")))
+						:type const))
+					  (setf links.innerHTML linkElements))
+					)
 			   :type const))
 		     
 
@@ -166,7 +190,9 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 			       (then findTitle)
 			       (then (lambda (title)
 				       (storeLink title url)))
-			       (then clearForm)))))
+			       (then clearForm)
+			       (then renderLinks)))))
+		     (renderLinks)
 		     (button.addEventListener (string "click")
 					      (lambda ()
 						(alert (string "bla"))))

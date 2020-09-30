@@ -21,6 +21,18 @@ const storeLink = function(title, url) {
         url: (url)
     }));
 };;
+const getLinks = function() {
+    return Object.keys(localStorage).map(function(key) {
+        JSON.parse(localStorage.getItem(key));
+    });
+};;
+const convertToElement = function(link) {
+    return `<div class="link"><h3>${link.title}</h3><p><a href="${link.url}">${link.url}</a></p></div>`;
+};;
+const renderLinks = function() {
+    const linkElements = getLinks().map(convertToElement).join("");;
+    links.innerHTML = linkElements;;
+};;
 new_link_url.addEventListener("keyup", function() {
     new_link_submit.disabled = !new_link_url;
 });
@@ -31,8 +43,9 @@ new_link_form.addEventListener("submit", function(event) {
         return response.text();
     }).then(parseResponse).then(findTitle).then(function(title) {
         storeLink(title, url);
-    }).then(clearForm);;
+    }).then(clearForm).then(renderLinks);;
 });
+renderLinks();
 button.addEventListener("click", function() {
     alert("bla");
 });

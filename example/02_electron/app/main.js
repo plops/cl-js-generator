@@ -10,7 +10,7 @@ function createWindow() {
     console.log(`chrome: ${process.versions.chrome}`);
     console.log(`electron: ${process.versions.electron}`);
     mainWindow = new BrowserWindow({
-        width: (1480),
+        width: (1450),
         height: (600),
         webPreferences: ({
             nodeIntegration: (true)
