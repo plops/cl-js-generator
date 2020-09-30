@@ -59,6 +59,8 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 			 (mainWindow null))
 		     (defun createWindow ()
 		       (console.log (string "hello from electron"))
+		       ,@(loop for e in `(node chrome electron) collect
+			    `(console.log (string-backtick ,(format nil "~a: ${process.versions.~a}" e e))))
 					;(console.log (string-backtick "file://${__dirname}/index.html"))
 		       ;; https://www.electronjs.org/docs/tutorial/first-app
 		       (setf mainWindow (new (BrowserWindow
@@ -74,11 +76,24 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		     (dot app
 			  (whenReady)
 			  (then createWindow))
-		     #+nil (app.on (string "ready")
+		     (app.on (string "window-all-closed")
+			     (lambda ()
+			       (unless (== process.platform (string "darwin"))
+				   (app.quit)))
+			     )
+		     (app.on (string "activate")
+			     (lambda ()
+			       ;; for macos re-create window when dock icon is clicked and no other window open
+			       (when (=== (dot BrowserWindow
+					       (getAllWindows)
+					       length)
+					  0)
+				 (createWindow)))
 			     )))
     (write-source (format nil "~a/app/renderer" *path*)
 		  `(let ((button (document.querySelector (string ".alert")) :type const)
 			 )
+		     
 		     (button.addEventListener (string "click")
 					      (lambda ()
 						(alert (string "bla"))))))))
