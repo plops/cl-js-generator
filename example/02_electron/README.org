@@ -1,0 +1,12 @@
+- https://www.youtube.com/watch?v=VCl8li22mrA Electron with React JS under 40 min!
+- https://github.com/Jerga99/electron-react-boilerplate
+
+  #+begin_example
+const isDev = !app.isPackaged;
+
+if (isDev) {
+  require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+  })
+}  
+  #+end_example
