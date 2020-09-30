@@ -8,7 +8,8 @@ app.on("ready", function() {
     console.log(`file://${__dirname}/index.html`);
     mainWindow = new BrowserWindow({
         webPreferences: {
-            worldSafeExecuteJavaScript: true
+            worldSafeExecuteJavaScript: true,
+            nodeIntegration: true
         }
     });
     mainWindow.webContents.loadURL(`file://${__dirname}/index.html`);

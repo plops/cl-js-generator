@@ -61,8 +61,8 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 			     (lambda ()
 			       (console.log (string "hello from electron"))
 			       (console.log (string-backtick "file://${__dirname}/index.html"))
- 
-			       (setf mainWindow (new (BrowserWindow "{webPreferences: { worldSafeExecuteJavaScript: true }}")))
+			       ;; https://www.electronjs.org/docs/tutorial/first-app
+			       (setf mainWindow (new (BrowserWindow "{webPreferences: { worldSafeExecuteJavaScript: true, nodeIntegration: true }}")))
 			       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))))))
     (write-source (format nil "~a/app/renderer" *path*)
 		  `(let ((button (document.querySelector (string ".alert")) :type const)
