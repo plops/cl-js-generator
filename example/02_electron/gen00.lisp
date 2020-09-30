@@ -65,7 +65,7 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		       ;; https://www.electronjs.org/docs/tutorial/first-app
 		       (setf mainWindow (new (BrowserWindow
 					      (dict
-					       (width 800)
+					       (width 1280)
 					       (height 600)
 					       (webPreferences (dict ;(worldSafeExecuteJavaScript true)
 									  (nodeIntegration true))))
