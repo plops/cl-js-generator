@@ -59,7 +59,7 @@ button.addEventListener('click',()=>{alert(__dirname);});"))))))
 			     (lambda ()
 			       (console.log (string "hello from electron"))
 			       (console.log (string-backtick "file://${__dirname}/index.html"))
-
+ 
 			       (setf mainWindow (new BrowserWindow))
 			       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))))))))
 
