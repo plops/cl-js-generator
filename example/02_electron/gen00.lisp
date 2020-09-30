@@ -98,9 +98,11 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 			  (whenReady)
 			  (then createWindow))
 
-
+		     (
+			(require (string "electron-reload"))
+			__dirname)
 		     #+nil (when isDev
-		       (
+			     (
 			(require (string "electron-reload"))
 			__dirname
 			(dict (electron (path.join __dirname

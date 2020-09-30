@@ -21,6 +21,7 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
 };
 app.whenReady().then(createWindow);
+require("electron-reload")(__dirname);
 app.on("window-all-closed", function() {
     unless(((process.platform) == ("darwin")), app.quit());
 });
