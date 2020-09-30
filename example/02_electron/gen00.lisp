@@ -76,7 +76,7 @@
 button.addEventListener('click',()=>{alert(\"hello\");});"))))))
     (write-source (format nil "~a/app/main" *path*)
 		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
-			 (isDev !app.isPackaged :type const)
+			 ;(isDev !app.isPackaged :type const)
 			 (mainWindow null))
 		     (defun createWindow ()
 		       (console.log (string "hello2 from electron"))
@@ -97,10 +97,9 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		     (dot app
 			  (whenReady)
 			  (then createWindow))
-
 		     (
-			(require (string "electron-reload"))
-			__dirname)
+		      (require (string "electron-reload"))
+		      __dirname)
 		     #+nil (when isDev
 			     (
 			(require (string "electron-reload"))

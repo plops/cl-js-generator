@@ -2,7 +2,6 @@ const {
     app,
     BrowserWindow
 } = require("electron");;
-const isDev = !app.isPackaged;;
 let mainWindow = null;;
 
 function createWindow() {
