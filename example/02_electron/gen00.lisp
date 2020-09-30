@@ -64,6 +64,10 @@
 				    :class "new-link-submit"
 				    :value "Submit"
 				    :disabled)))
+	   (:section :class "links")
+	   (:section :class "controls"
+		     (:button :class "clear-storage"
+			      "Clear Storage"))
 	   
 	   (:p (:button :class "alert"
 			"current directory"))
@@ -108,11 +112,32 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 			     )))
     (write-source (format nil "~a/app/renderer" *path*)
 		  `(let ((button (document.querySelector (string ".alert")) :type const)
-			 )
+			 ,@(loop for e in `(links error-message new-link-form new-link-url
+						  new-link-submit clear-storage)
+			      collect
+				`(,(substitute #\_ #\- (format nil "~a" e))
+				   (document.querySelector (string ,(format nil ".~a" e))) :type const))
+			 (clearForm (lambda ()
+				      (setf new_link_url null))
+			   :type const))
 		     
+
+		     (new_link_url.addEventListener
+		      (string "keyup")
+		      (lambda ()
+			(setf new_link_submit.disabled !new_link_url)))
+		     (new_link_form.addEventListener
+		      (string "submit")
+		      (lambda (event)
+			(event.preventDefault)
+			(let ((url new_link_url.value :type const))
+			  (dot (fetch url)
+			       (then (lambda (response)
+				       (return (response.text))))))))
 		     (button.addEventListener (string "click")
 					      (lambda ()
-						(alert (string "bla"))))))))
+						(alert (string "bla"))))
+		     ))))
 
 
 
