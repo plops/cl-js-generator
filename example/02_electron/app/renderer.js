@@ -7,7 +7,7 @@ const new_link_url = document.querySelector(".new-link-url");;
 const new_link_submit = document.querySelector(".new-link-submit");;
 const clear_storage = document.querySelector(".clear-storage");;
 const clearForm = function() {
-    new_link_url = null;
+    new_link_url.value = null;
 };;
 const parseResponse = function(text) {
     return parser.parseFromString(text, "text/html");

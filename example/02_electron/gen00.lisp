@@ -119,7 +119,7 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 				`(,(substitute #\_ #\- (format nil "~a" e))
 				   (document.querySelector (string ,(format nil ".~a" e))) :type const))
 			 (clearForm (lambda ()
-				      (setf new_link_url null))
+				      (setf new_link_url.value null))
 			   :type const)
 			 (parseResponse (lambda (text)
 					   (return (parser.parseFromString text
