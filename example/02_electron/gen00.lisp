@@ -23,7 +23,6 @@
 (progn
   (defparameter *repo-sub-path* "02_electron")
   (defparameter *path* (format nil "/home/martin/stage/cl-js-generator/example/~a" *repo-sub-path*))
-  (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *inspection-facts*
     `((10 "")))
   (defparameter *day-names*
@@ -62,7 +61,7 @@ button.addEventListener('click',()=>{alert(__dirname);});"))))))
 			       (console.log (string-backtick "file://${__dirname}/index.html"))
 
 			       (setf mainWindow (new BrowserWindow))
-			       (mainWindow.webContents.loadFile (string-backtick "file://${__dirname}/index.html"))))))))
+			       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))))))))
 
 
 
