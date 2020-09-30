@@ -36,7 +36,7 @@
 		       :direction :output
 		       :if-exists :supersede
 		       :if-does-not-exist :create)
-      (cl-who:with-html-output (s nil :prologue t)
+      (cl-who:with-html-output (s nil :prologue t :indent t)
 	(cl-who:htm
 	 (:html
 	  (:head
@@ -52,6 +52,19 @@
 	   (:title "bookmarker"))
 	  (:body
 	   (:h1 "Hello from Electron")
+	   (:div :class "error-message")
+	   (:section :class "add-new-link"
+		     (:form :class "new-link-form"
+			    (:input :type "url"
+				    :class "new-link-url"
+				    :placeholder "URL"
+				    :size "100"
+				    :required)
+			    (:input :type "submit"
+				    :class "new-link-submit"
+				    :value "Submit"
+				    :disabled)))
+	   
 	   (:p (:button :class "alert"
 			"current directory"))
 	   (:script "require('./renderer');"
@@ -68,7 +81,7 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		       ;; https://www.electronjs.org/docs/tutorial/first-app
 		       (setf mainWindow (new (BrowserWindow
 					      (dict
-					       (width 1280)
+					       (width 1480)
 					       (height 600)
 					       (webPreferences (dict ;(worldSafeExecuteJavaScript true)
 									  (nodeIntegration true))))
