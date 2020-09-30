@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "first electron app",
   "main": "./app/main.js",
-    "scripts": {
+  "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^10.1.3"
+    "electron": "^10.1.3",
+    "electron-reload": "^1.5.0"
   }
 }

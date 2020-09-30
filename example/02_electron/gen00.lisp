@@ -76,9 +76,10 @@
 button.addEventListener('click',()=>{alert(\"hello\");});"))))))
     (write-source (format nil "~a/app/main" *path*)
 		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
+			 (isDev !app.isPackaged :type const)
 			 (mainWindow null))
 		     (defun createWindow ()
-		       (console.log (string "hello from electron"))
+		       (console.log (string "hello2 from electron"))
 		       ,@(loop for e in `(node chrome electron) collect
 			    `(console.log (string-backtick ,(format nil "~a: ${process.versions.~a}" e e))))
 					;(console.log (string-backtick "file://${__dirname}/index.html"))
@@ -96,6 +97,17 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		     (dot app
 			  (whenReady)
 			  (then createWindow))
+
+
+		     #+nil (when isDev
+		       (
+			(require (string "electron-reload"))
+			__dirname
+			(dict (electron (path.join __dirname
+						   (string "node_modules")
+						   (string ".bin")
+						   (string "electron"))))))
+		     
 		     (app.on (string "window-all-closed")
 			     (lambda ()
 			       (unless (== process.platform (string "darwin"))

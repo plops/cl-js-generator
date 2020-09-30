@@ -1,6 +1,19 @@
 - https://www.youtube.com/watch?v=VCl8li22mrA Electron with React JS under 40 min!
 - https://github.com/Jerga99/electron-react-boilerplate
 
+- https://youtu.be/VCl8li22mrA?t=965
+  #+begin_example
+npm install --save css-loader style-loader 
+sass-loader 
+  #+end_example
+- https://youtu.be/VCl8li22mrA?t=1135 webpack configuration
+
+- https://youtu.be/VCl8li22mrA?t=1377 electron-reload
+
+  #+begin_example
+npm install --save electron-reload
+  #+end_example
+  
   #+begin_example
 const isDev = !app.isPackaged;
 
