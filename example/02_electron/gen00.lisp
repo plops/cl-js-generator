@@ -42,10 +42,8 @@
 	  (:head
 	   (:meta :charset "UTF-8")
 	   ;; https://stackoverflow.com/questions/63427191/security-warning-in-the-console-of-browserwindow-electron-9-2-0
-	   #+nil (:meta :http-equiv "Content-Security-Policy"
-			:content "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *")
 	   (:meta :http-equiv "Content-Security-Policy"
-		  :content "script-src 'self' 'unsafe-inline'")
+			:content "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *")
 	   (:meta :name "viewport"
 		  :content "width=device-width,initial-scale=1")
 	   (:title "bookmarker"))
@@ -53,8 +51,9 @@
 	   (:h1 "Hello from Electron")
 	   (:p (:button :class "alert"
 			"current directory"))
-	   (:script "const button=document.querySelector('.alert');
-button.addEventListener('click',()=>{alert(__dirname);});"))))))
+	   (:script "require('./renderer');"
+		    #+nil "const button=document.querySelector('.alert');
+button.addEventListener('click',()=>{alert(\"hello\");});"))))))
     (write-source (format nil "~a/app/main" *path*)
 		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
 			 (mainWindow null))
@@ -64,7 +63,13 @@ button.addEventListener('click',()=>{alert(__dirname);});"))))))
 			       (console.log (string-backtick "file://${__dirname}/index.html"))
  
 			       (setf mainWindow (new (BrowserWindow "{webPreferences: { worldSafeExecuteJavaScript: true }}")))
-			       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))))))))
+			       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))))))
+    (write-source (format nil "~a/app/renderer" *path*)
+		  `(let ((button (document.querySelector (string ".alert")) :type const)
+			 )
+		     (button.addEventListener (string "click")
+					      (lambda ()
+						(alert (string "bla"))))))))
 
 
 
