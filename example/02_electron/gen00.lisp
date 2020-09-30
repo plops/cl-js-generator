@@ -36,7 +36,7 @@
 		       :direction :output
 		       :if-exists :supersede
 		       :if-does-not-exist :create)
-      (cl-who:with-html-output (s nil)
+      (cl-who:with-html-output (s nil :prologue t)
 	(cl-who:htm
 	 (:html
 	  (:head
@@ -57,13 +57,25 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
     (write-source (format nil "~a/app/main" *path*)
 		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
 			 (mainWindow null))
-		     (app.on (string "ready")
-			     (lambda ()
-			       (console.log (string "hello from electron"))
-			       (console.log (string-backtick "file://${__dirname}/index.html"))
-			       ;; https://www.electronjs.org/docs/tutorial/first-app
-			       (setf mainWindow (new (BrowserWindow "{webPreferences: { worldSafeExecuteJavaScript: true, nodeIntegration: true }}")))
-			       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))))))
+		     (defun createWindow ()
+		       (console.log (string "hello from electron"))
+					;(console.log (string-backtick "file://${__dirname}/index.html"))
+		       ;; https://www.electronjs.org/docs/tutorial/first-app
+		       (setf mainWindow (new (BrowserWindow
+					      (dict
+					       (width 800)
+					       (height 600)
+					       (webPreferences (dict ;(worldSafeExecuteJavaScript true)
+									  (nodeIntegration true))))
+					      ;"{webPreferences: { worldSafeExecuteJavaScript: true, nodeIntegration: true }}"
+					      )))
+		       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))
+		       (mainWindow.webContents.openDevTools))
+		     (dot app
+			  (whenReady)
+			  (then createWindow))
+		     #+nil (app.on (string "ready")
+			     )))
     (write-source (format nil "~a/app/renderer" *path*)
 		  `(let ((button (document.querySelector (string ".alert")) :type const)
 			 )

@@ -3,14 +3,17 @@ const {
     BrowserWindow
 } = require("electron");;
 let mainWindow = null;;
-app.on("ready", function() {
+
+function createWindow() {
     console.log("hello from electron");
-    console.log(`file://${__dirname}/index.html`);
     mainWindow = new BrowserWindow({
-        webPreferences: {
-            worldSafeExecuteJavaScript: true,
-            nodeIntegration: true
-        }
+        width: (800),
+        height: (600),
+        webPreferences: ({
+            nodeIntegration: (true)
+        })
     });
     mainWindow.webContents.loadURL(`file://${__dirname}/index.html`);
-});
+    mainWindow.webContents.openDevTools();
+};
+app.whenReady().then(createWindow);
