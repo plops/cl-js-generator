@@ -148,23 +148,27 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 										  (url url)))))
 			   :type const)
 			 (getLinks (lambda ()
+				     (console.log (string-backtick "getLinks Object.keys(localStorage)=${Object.keys(localStorage)}"))
 				     (return (dot (Object.keys localStorage)
 						  (map (lambda (key)
 							 (JSON.parse (localStorage.getItem key)))))))
 			   :type const)
 
 			 (convertToElement (lambda (link)
+					     (console.log (string-backtick "convertToElement ${link}"))
 					     (return
 					       (string-backtick
 						,(cl-who:with-html-output-to-string (s)
 						   (cl-who:htm
 						    (:div :class "link"
-							  (:h3 "${link.title}")
-							  (:p (:a :href "${link.url}"
+							  ;(:h3 "${link.title}")
+							  #+nil (:p (:a :href "${link.url}"
 								  "${link.url}")
 							      )))))))
 			   :type const)
 			 (renderLinks (lambda ()
+					(console.log (string-backtick "renderLinks"))
+					
 					(let ((linkElements (dot (getLinks)
 								 (map convertToElement)
 								 (join (string "")))

@@ -22,14 +22,17 @@ const storeLink = function(title, url) {
     }));
 };;
 const getLinks = function() {
+    console.log(`getLinks Object.keys(localStorage)=${Object.keys(localStorage)}`);
     return Object.keys(localStorage).map(function(key) {
         JSON.parse(localStorage.getItem(key));
     });
 };;
 const convertToElement = function(link) {
-    return `<div class="link"><h3>${link.title}</h3><p><a href="${link.url}">${link.url}</a></p></div>`;
+    console.log(`convertToElement ${link}`);
+    return `<div class="link"></div>`;
 };;
 const renderLinks = function() {
+    console.log(`renderLinks`);
     const linkElements = getLinks().map(convertToElement).join("");;
     links.innerHTML = linkElements;;
 };;
