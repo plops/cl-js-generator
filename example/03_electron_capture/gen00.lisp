@@ -19,7 +19,7 @@
 
   
   (let* ()
-    (with-open-file (s (format nil "~a/my-app/src/index.html" *path*)
+    (with-open-file (s (format nil "~a/my-app/src/index.html" *path*) 
 		       :direction :output
 		       :if-exists :supersede
 		       :if-does-not-exist :create)
@@ -31,7 +31,7 @@
 		  :href "style.css"
 		  :type "text/css")
 	   (:meta :charset "UTF-8")
-	   (:meta :http-equiv "Content-Security-Policy"
+	   #+nil (:meta :http-equiv "Content-Security-Policy"
 			:content "default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src *")
 	   (:meta :name "viewport"
 		  :content "width=device-width,initial-scale=1")
