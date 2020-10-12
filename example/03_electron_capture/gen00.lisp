@@ -44,19 +44,20 @@
 	   (:link :rel "stylesheet"
 		  :herf "index.css"
 		  :type "text/css")
-	   (:script  :src "render.js" :defer))
+	   )
 	  (:body :class "content"
 		 (:h1 "electron screen recorder")
 		 (:video)
 		 (:button :id "startBtn"
 			  :class "button is-primary"
-			  "start")
+			  "Start")
 		 (:button :id "stopBtn"
 			  :class "button is-warning"
-			  "stop")
+			  "Stop")
 		 (:button :id "videoSelectBtn"
 			  :class "button is-text"
-			  "choose a video source"))))))
+			  "choose a video source")
+		 (:script  :src "render.js"))))))
     (write-source (format nil "~a/my-app/src/index" *path*)
 		  `(let (("{app, BrowserWindow}" (require (string "electron")) :type const)
 			 (path (require (string "path")))
@@ -119,7 +120,7 @@
 			     (stopBtn (lambda (e)
 					(mediaRecorder.stop)
 					(startBtn.classList.remove (string "is-danger"))
-					(setf startBtn.innerText (string "start"))))
+					(setf startBtn.innerText (string "Start"))))
 			     (videoSelectBtn getVideoSources))
 			 collect
 			   `(let ((,name (document.getElementById (string ,name)) :type const))
@@ -128,7 +129,7 @@
 		    (space "async"
 		     (defun getVideoSources ()
 		       (let ((inputSources (space await
-						  (deskopCapturer.getSources
+						  (desktopCapturer.getSources
 						   (dict (types (list (string "window")
 								      (string "screen"))))))
 			       :type const)

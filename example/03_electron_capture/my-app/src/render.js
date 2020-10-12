@@ -26,14 +26,14 @@ const stopBtn = document.getElementById("stopBtn");;
 stopBtn.onclick = function(e) {
     mediaRecorder.stop();
     startBtn.classList.remove("is-danger");
-    startBtn.innerText = "start";
+    startBtn.innerText = "Start";
 };
 
 const videoSelectBtn = document.getElementById("videoSelectBtn");;
 videoSelectBtn.onclick = getVideoSources;
 
 async function getVideoSources() {
-    const inputSources = await deskopCapturer.getSources({
+    const inputSources = await desktopCapturer.getSources({
         types: (["window", "screen"])
     });;
     let videoOptionsMenu = Menu.buildFromTemplate(inputSources.map(function(source) {
