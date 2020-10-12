@@ -94,7 +94,7 @@
 					  0)
 				 (createWindow)))
 			     )))
-    (write-source (format nil "~a/my-app/render" *path*)
+    (write-source (format nil "~a/my-app/src/render" *path*)
 		  `(do0
 		    (let (("{desktopCapturer, remote}" (require (string "electron")) :type const)
 			  ("{writeFile}" (require (string "fs")) :type const)
@@ -169,86 +169,8 @@
 					    buffer
 					    (lambda ()
 					      (console.log (string "video saved successfully."))))))))
-
-		    		    (let (
-			  (startBtn (document.querySelector (string "video")) :type const)
-			  (parser (new (DOMParser)) :type const)
-			  ,@(loop for e in `(links error-message new-link-form new-link-url
-						   new-link-submit clear-storage)
-			       collect
-				 `(,(substitute #\_ #\- (format nil "~a" e))
-				    (document.querySelector (string ,(format nil ".~a" e))) :type const))
-			  (clearForm (lambda ()
-				       (setf new_link_url.value null))
-			    :type const)
-			  (parseResponse (lambda (text)
-					   (return (parser.parseFromString text
-									   (string "text/html"))))
-			    :type const)
-			  (findTitle (lambda (nodes)
-				       (return (dot nodes
-						    (querySelector (string "title"))
-						    innerText)))
-			    :type const)
-			  (storeLink (lambda (title url)
-				       (localStorage.setItem url
-							     (JSON.stringify (dict (title title)
-										   (url url)))))
-			    :type const)
-			  (getLinks (lambda ()
-				      (console.log (string-backtick "getLinks Object.keys(localStorage)=${Object.keys(localStorage)}"))
-				      (return (dot (Object.keys localStorage)
-						   (map (lambda (key)
-							  (JSON.parse (localStorage.getItem key)))))))
-			    :type const)
-
-			  (convertToElement (lambda (link)
-					      (console.log (string-backtick "convertToElement ${link}"))
-					      (return
-						(string-backtick
-						 ,(cl-who:with-html-output-to-string (s)
-						    (cl-who:htm
-						     (:div :class "link"
-					;(:h3 "${link.title}")
-							   #+nil (:p (:a :href "${link.url}"
-									 "${link.url}")
-								     )))))))
-			    :type const)
-			  (renderLinks (lambda ()
-					 (console.log (string-backtick "renderLinks"))
-					
-					 (let ((linkElements (dot (getLinks)
-								  (map convertToElement)
-								  (join (string "")))
-						 :type const))
-					   (setf links.innerHTML linkElements))
-					 )
-			    :type const))
-		     
-
-		      (new_link_url.addEventListener
-		       (string "keyup")
-		       (lambda ()
-			 (setf new_link_submit.disabled !new_link_url)))
-		      (new_link_form.addEventListener
-		       (string "submit")
-		       (lambda (event)
-			 (event.preventDefault)
-			 (let ((url new_link_url.value :type const))
-			   (dot (fetch url)
-				(then (lambda (response)
-					(return (response.text))))
-				(then parseResponse)
-				(then findTitle)
-				(then (lambda (title)
-					(storeLink title url)))
-				(then clearForm)
-				(then renderLinks)))))
-		      (renderLinks)
-		      (button.addEventListener (string "click")
-					       (lambda ()
-						 (alert (string "bla"))))
-		      )))))
+		    
+		    ))))
 
 
 
