@@ -122,8 +122,7 @@
 			 collect
 			   `(let ((,name (document.getElementById (string ,name)) :type const))
 			      (setf (dot ,name onclick)
-				    (lambda ()
-				      ,code))))
+				    ,code)))
 		    (space "async"
 		     (defun getVideoSources ()
 		       (let ((inputSources (space await

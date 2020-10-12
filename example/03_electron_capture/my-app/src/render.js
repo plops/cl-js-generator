@@ -17,26 +17,20 @@ const videoElement = document.querySelector("video");;
 
 const startBtn = document.getElementById("startBtn");;
 startBtn.onclick = function() {
-    function() {
-        mediaRecorder.start();
-        startBtn.classList.add("is-danger");
-        startBtn.innerText = "Recording";
-    };
+    mediaRecorder.start();
+    startBtn.classList.add("is-danger");
+    startBtn.innerText = "Recording";
 };
 
 const stopBtn = document.getElementById("stopBtn");;
 stopBtn.onclick = function() {
-    function() {
-        mediaRecorder.stop();
-        startBtn.classList.remove("is-danger");
-        startBtn.innerText = "start";
-    };
+    mediaRecorder.stop();
+    startBtn.classList.remove("is-danger");
+    startBtn.innerText = "start";
 };
 
 const videoSelectBtn = document.getElementById("videoSelectBtn");;
-videoSelectBtn.onclick = function() {
-    getVideoSources;
-};
+videoSelectBtn.onclick = getVideoSources;
 
 async function getVideoSources() {
     const inputSources = await deskopCapturer.getSources({
