@@ -27,20 +27,23 @@
 	(cl-who:htm
 	 (:html
 	  (:head
-	   (:link :rel "stylesheet"
+	   #+nil (:link :rel "stylesheet"
 		  :href "style.css"
 		  :type "text/css")
 	   (:meta :charset "UTF-8")
-	   #+nil (:meta :http-equiv "Content-Security-Policy"
+	   (:meta :http-equiv "Content-Security-Policy"
 			:content "default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src *")
 	   (:meta :name "viewport"
 		  :content "width=device-width,initial-scale=1")
 	   (:title "screencapture")
 	   (:link :rel "stylesheet" ;; why a web link?
-		  :href "https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css")
+		  :href ;"https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+		  "bulma.min.css"
+		  )
 	   (:link :rel "stylesheet"
-		  :herf "index.css")
-	   (:script :defer :src "render.js"))
+		  :herf "index.css"
+		  :type "text/css")
+	   (:script  :src "render.js" :defer))
 	  (:body :class "content"
 		 (:h1 "electron screen recorder")
 		 (:video)
@@ -97,6 +100,7 @@
     (write-source (format nil "~a/my-app/src/render" *path*)
 		  `(do0
 		    (let (("{desktopCapturer, remote}" (require (string "electron")) :type const)
+			  ;; remote is used for native menus
 			  ("{writeFile}" (require (string "fs")) :type const)
 			  ("{dialog,Menu}" remote :type const)))
 		    
