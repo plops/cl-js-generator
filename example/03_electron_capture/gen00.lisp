@@ -112,11 +112,11 @@
 			  (recordedChunks "[]" :type const)
 			  (videoElement (document.querySelector (string "video")) :type const)))
 		    ,@(loop for (name code) in
-			   `((startBtn (lambda ()
+			   `((startBtn (lambda (e)
 					 (mediaRecorder.start)
 					 (startBtn.classList.add (string "is-danger"))
 					 (setf startBtn.innerText (string "Recording"))))
-			     (stopBtn (lambda ()
+			     (stopBtn (lambda (e)
 					(mediaRecorder.stop)
 					(startBtn.classList.remove (string "is-danger"))
 					(setf startBtn.innerText (string "start"))))

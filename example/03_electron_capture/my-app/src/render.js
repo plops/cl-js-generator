@@ -16,14 +16,14 @@ const recordedChunks = [];;
 const videoElement = document.querySelector("video");;
 
 const startBtn = document.getElementById("startBtn");;
-startBtn.onclick = function() {
+startBtn.onclick = function(e) {
     mediaRecorder.start();
     startBtn.classList.add("is-danger");
     startBtn.innerText = "Recording";
 };
 
 const stopBtn = document.getElementById("stopBtn");;
-stopBtn.onclick = function() {
+stopBtn.onclick = function(e) {
     mediaRecorder.stop();
     startBtn.classList.remove("is-danger");
     startBtn.innerText = "start";
