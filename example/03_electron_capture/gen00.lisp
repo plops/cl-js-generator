@@ -101,12 +101,16 @@
 			  ("{dialog,Menu}" remote :type const)))
 		    
 		    
-		    (let ((videoElement (document.querySelector (string "video")) :type const)))
+		    (let ((mediaRecorder null)
+			  (recordedChunks "[]" :type const)
+			  (videoElement (document.querySelector (string "video")) :type const)))
 		    ,@(loop for (name code) in
 			   `((startBtn (lambda ()
+					 (mediaRecorder.start)
 					 (startBtn.classList.add (string "is-danger"))
 					 (setf startBtn.innerText (string "Recording"))))
 			     (stopBtn (lambda ()
+					(mediaRecorder.stop)
 					(startBtn.classList.remove (string "is-danger"))
 					(setf startBtn.innerText (string "start"))))
 			     (videoSelectBtn getVideoSources))
@@ -117,11 +121,56 @@
 				      ,code))))
 		    (space "async"
 		     (defun getVideoSources ()
-		       (let ((inputSources (space await (deskopCapt)))))
-		       ))
+		       (let ((inputSources (space await
+						  (deskopCapturer.getSources
+						   (dict (types (list (string "window")
+								      (string "screen"))))))
+			       :type const)
+			     (videoOptionsMenu (Menu.buildFromTemplate
+						(inputSources.map (lambda (source)
+								    (return (dict (label source.name)
+										  (click (lambda ()
+											   (selectSource source))))))))))
+			 (videoOptionsMenu.popup))))
 
-		    
-		    (let (
+		    (space async
+			   (defun selectSource (source)
+			     (setf videoSelectBtn.innerText source.name)
+			     (let ((constraints (dict (audio false)
+						      (video (dict (mandatory (dict (chromeMediaSource (string "desktop"))
+										    (chromeMediaSourceId source.id))))))
+				     :type const)
+				   (stream (space await (dot navigator.mediaDevices
+							     (getUserMedia constraints)))
+				     :type const))
+			       (setf videoElement.srcObject stream)
+			       (videoElement.play)
+			       (let ((options (dict (mimeType (string "video/webm; codecs=vp9")))))
+				 (setf mediaRecorder (new (MediaRecorder stream options)))
+				 (setf mediaRecorder.ondataavailable handleDataAvailable
+				       mediaRecorder.onstop handleStop))
+			       )))
+
+		    (defun handleDataAvailable (e)
+		      (console.log (string "video data available"))
+		      (recordedChunks.push e.data))
+		    (space async
+			   (defun handleStop (e)
+			     (let ((blob (new (Blob recordedChunks
+						    (dict (type (string "video/webm; codecs=vp9")))) )
+				     :type const)
+				   (buffer (Buffer.from (space await (blob.arrayBuffer)))
+				     :type const)
+				   ("{filePath}" (space await (dialog.showSaveDialog
+							       (dict (buttonLabel (string "save video"))
+								     (defaultPath (string-backtick "vid-${Date.now()}.webm")))))))
+			       (when filePath
+				 (writeFile filePath
+					    buffer
+					    (lambda ()
+					      (console.log (string "video saved successfully."))))))))
+
+		    		    (let (
 			  (startBtn (document.querySelector (string "video")) :type const)
 			  (parser (new (DOMParser)) :type const)
 			  ,@(loop for e in `(links error-message new-link-form new-link-url
