@@ -1,2 +1,8 @@
 - https://www.youtube.com/watch?v=3yqDxhR2XxE&t=90s
 - https://github.com/fireship-io/223-electron-screen-recorder
+
+#+begin_example
+npx create-electron-app my-app
+npm start
+rs # to restart
+#+end_example
