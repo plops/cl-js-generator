@@ -74,7 +74,9 @@
 					       (width 800)
 					       (height 600)
 					       (webPreferences (dict ;(worldSafeExecuteJavaScript true)
-									  (nodeIntegration true))))
+								(nodeIntegration true)
+								;; https://stackoverflow.com/questions/37884130/electron-remote-is-undefined
+								(enableRemoteModule true))))
 					      )))
 		       (mainWindow.loadFile (path.join __dirname (string "index.html")))
 		       ;(mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))
