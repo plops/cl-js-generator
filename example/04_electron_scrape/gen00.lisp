@@ -109,8 +109,23 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
     (write-source (format nil "~a/app/renderer" *path*)
 		  `(let ((webview (document.querySelector (string "webview"))
 				  :type const)
+			 (cheerio (require (string "cheerio"))
+				  :type const)
 			 )
-		     
+
+		     (defun extractLinks (html)
+		       (let ((h (cheerio.load html)
+				:type const))
+			 (dot (h (string "a"))
+			      (each (lambda (i element)
+				      ,(let ((l `((href (attr (string "href")))
+						  (text (text)))))
+					 `(do0
+					   ,@(loop for (name code) in l collect
+						   `(console.log
+						     (+ (string ,(format nil "~a: " name))
+							(dot (h element)
+							     ,code)))))))))))
 		     
 
 		     (webview.addEventListener
@@ -129,7 +144,7 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 return new Promise((resolve,reject)=>{resolve(document.documentElement.innerHTML);});}
 gethtml();"))
 			       (then (lambda (html)
-				       (console.log html)))))))
+				       (extractLinks html)))))))
 		     
 		    ))))
 
