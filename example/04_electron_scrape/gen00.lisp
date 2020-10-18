@@ -60,18 +60,30 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		       ;; https://www.electronjs.org/docs/tutorial/first-app
 		       (setf mainWindow (new (BrowserWindow
 					      (dict
+					       (center true)
+					       (show false)
 					       (width 1450)
 					       (height 600)
 					       ;; https://github.com/electron/electron/issues/9920#issuecomment-575839738
 					       
-					       (webPreferences (dict
-								;(contextIsolation true)
-								(worldSafeExecuteJavaScript true)
-									  (nodeIntegration true))))
-					      ;"{webPreferences: { worldSafeExecuteJavaScript: true, nodeIntegration: true }}"
+					        (webPreferences (dict
+					;(contextIsolation true)
+								 (worldSafeExecuteJavaScript true)
+								 (nodeIntegration true))))
+					;"{webPreferences: { worldSafeExecuteJavaScript: true, nodeIntegration: true }}"
 					      )))
+		       
+		       (mainWindow.webContents.openDevTools)
 		       (mainWindow.webContents.loadURL (string-backtick "file://${__dirname}/index.html"))
-		       (mainWindow.webContents.openDevTools))
+		       (mainWindow.webContents.on
+			(string "dom-ready")
+			(lambda ()
+			  (console.log (string "user-agent:")
+				       (mainWindow.webContents.getUserAgent))
+			  (mainWindow.webContents.openDevTools)
+			  (mainWindow.maximize)
+			  (mainWindow.show))
+			))
 		     (dot app
 			  (whenReady)
 			  (then createWindow))
@@ -94,9 +106,9 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 				 (createWindow)))
 			     )))
     (write-source (format nil "~a/app/renderer" *path*)
-		  `(let ((webview (document.querySelector (string "webview")))
-			
-			)
+		  `(let ((webview (document.querySelector (string "webview"))
+				  :type const)
+			 )
 		     
 		     
 

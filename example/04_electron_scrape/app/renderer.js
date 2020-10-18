@@ -1,4 +1,4 @@
-let webview = document.querySelector("webview");;
+const webview = document.querySelector("webview");;
 webview.addEventListener("dom-ready", function() {
     let currenURL = webview.getURL();;
     let title = webview.getTitle();;
