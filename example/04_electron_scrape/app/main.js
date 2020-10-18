@@ -16,7 +16,8 @@ function createWindow() {
         height: (600),
         webPreferences: ({
             worldSafeExecuteJavaScript: (true),
-            nodeIntegration: (true)
+            nodeIntegration: (true),
+            webviewTag: (true)
         })
     });
     mainWindow.webContents.openDevTools();

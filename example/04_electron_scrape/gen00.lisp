@@ -69,7 +69,8 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 					        (webPreferences (dict
 					;(contextIsolation true)
 								 (worldSafeExecuteJavaScript true)
-								 (nodeIntegration true))))
+								 (nodeIntegration true)
+								 (webviewTag true))))
 					;"{webPreferences: { worldSafeExecuteJavaScript: true, nodeIntegration: true }}"
 					      )))
 		       
