@@ -82,7 +82,7 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 					       ;; https://github.com/electron/electron/issues/9920#issuecomment-575839738
 					       
 					       (webPreferences (dict
-								(contextIsolation true)
+								;(contextIsolation true)
 								(worldSafeExecuteJavaScript true)
 									  (nodeIntegration true))))
 					      ;"{webPreferences: { worldSafeExecuteJavaScript: true, nodeIntegration: true }}"
@@ -180,7 +180,16 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 			      (title (webview.getTitle)))
 			  (console.log
 			   (+ (string "currentURL=")
-					  currentURL)))))
+			      currentURL))
+			  (console.log
+			   (+ (string "title=")
+			      title))
+			  (dot (webview.executeJavaScript
+			    (string-backtick "function gethtml(){
+return new Promise((resolve,reject)=>{resolve(document.documentElement.innerHTML);});}
+gethtml();"))
+			       (then (lambda (html)
+				       (console.log html)))))))
 
 		     
 		     (new_link_url.addEventListener

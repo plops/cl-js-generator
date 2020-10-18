@@ -40,7 +40,13 @@ const renderLinks = function() {
 webview.addEventListener("dom-ready", function() {
     let currenURL = webview.getURL();;
     let title = webview.getTitle();;
-    console.log((("currentURL=") + (currentURL)));;
+    console.log((("currentURL=") + (currentURL)));
+    console.log((("title=") + (title)));
+    webview.executeJavaScript(`function gethtml(){
+return new Promise((resolve,reject)=>{resolve(document.documentElement.innerHTML);});}
+gethtml();`).then(function(html) {
+        console.log(html);
+    });;
 });
 new_link_url.addEventListener("keyup", function() {
     new_link_submit.disabled = !new_link_url;
