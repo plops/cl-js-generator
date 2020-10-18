@@ -39,7 +39,8 @@
 	   (:title "scraper"))
 	  (:body
 	   (:webview :style "min-height: 85vh;"
-		     :src "https://www.whatismybrowser.com/detect/what-is-my-user-agent"
+		     :src "https://youtube.com/"
+		     ;"https://www.whatismybrowser.com/detect/what-is-my-user-agent"
 		     :useragent "Tralala v1.2")
 	   (:div :class "error-message")
 	   
