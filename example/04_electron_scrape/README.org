@@ -2,7 +2,7 @@
 - https://github.com/Tazeg/sample-web-scraping-with-electron
 - https://www.electronjs.org/docs/tutorial/web-embeds
   - webviews may not be working in future versions of electron
-  - also i don't want to expose my node api to the scraped website
+  - also i don't want to expose my node api to the scraped website (currently, i'm not sure if the webview is sufficiently isolated)
   - probably it is better to switch to client windows and ipc
 #+begin_example
 mkdir app
