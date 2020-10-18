@@ -2,33 +2,15 @@
 
 <html>
   <head>
-    <link rel="stylesheet" href="style.css" type="text/css" />
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src *" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>bookmarker
+    <title>scraper
     </title>
   </head>
   <body>
     <webview style="min-height: 85vh;" src="https://www.whatismybrowser.com/detect/what-is-my-user-agent" useragent="Tralala v1.2"></webview>
-    <h1>Hello from Electron
-    </h1>
     <div class="error-message"></div>
-    <section class="add-new-link">
-      <form class="new-link-form">
-        <input type="url" class="new-link-url" placeholder="URL" size="100" />
-        <input type="submit" class="new-link-submit" value="Submit" />
-      </form>
-    </section>
-    <section class="links"></section>
-    <section class="controls">
-      <button class="clear-storage">Clear Storage
-      </button>
-    </section>
-    <p>
-      <button class="alert">current directory
-      </button>
-    </p>
     <script>require('./renderer');
     </script>
   </body>
