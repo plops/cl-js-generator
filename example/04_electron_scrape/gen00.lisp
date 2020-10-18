@@ -116,7 +116,7 @@ button.addEventListener('click',()=>{alert(\"hello\");});"))))))
 		     (webview.addEventListener
 		      (string "dom-ready")
 		      (lambda ()
-			(let ((currenURL (webview.getURL))
+			(let ((currentURL (webview.getURL))
 			      (title (webview.getTitle)))
 			  (console.log
 			   (+ (string "currentURL=")
