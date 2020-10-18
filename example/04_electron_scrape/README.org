@@ -1,4 +1,5 @@
 - https://en.jeffprod.com/blog/2019/web-scraping-with-electron/
+- https://github.com/Tazeg/sample-web-scraping-with-electron
 #+begin_example
 mkdir app
 cd app
