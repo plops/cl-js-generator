@@ -1,0 +1,10 @@
+- https://en.jeffprod.com/blog/2019/web-scraping-with-electron/
+#+begin_example
+mkdir app
+cd app
+npm init
+# -- answer a bunch of questions
+npm install electron --save
+# -- add start script to package.json
+# npm start
+#+end_example
