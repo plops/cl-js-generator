@@ -19,6 +19,8 @@
       "Sunday"))
   
   (let* ()
+    ;;https://api.nasdaq.com/api/quote/INTC/realtime-trades?&limit=5
+    
     (with-open-file (s (format nil "~a/app/index.html" *path*)
 		       :direction :output
 		       :if-exists :supersede
@@ -39,7 +41,8 @@
 	   (:title "scraper"))
 	  (:body
 	   (:webview :style "min-height: 85vh;"
-		     :src "https://youtube.com/"
+		     :src ;"https://youtube.com/"
+		     "https://www.nasdaq.com/market-activity/stocks/intc/real-time"
 		     ;"https://www.whatismybrowser.com/detect/what-is-my-user-agent"
 		     :useragent "Tralala v1.2")
 	   (:div :class "error-message")
