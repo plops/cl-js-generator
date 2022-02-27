@@ -116,16 +116,34 @@
 											(* 4 y W)))
 								    ,e))
 						     )))
-						)))))))))
-			   (init (dictionary :timestamp videoFrame.timestamp
-					     :codedWidth W
-					     :codedHeight H
-					     :format (string "RGBA")))
-			   (newFrame (new (VideoFrame bufferRGBA
-						      init)))
+						))
+
+
+					     (do0
+				    (init (dictionary :timestamp videoFrame.timestamp
+						      :codedWidth W
+						      :codedHeight H
+						      :format (string "RGBA")))
+
+				    
+				    (newFrame (new (VideoFrame bufferRGBA
+							       init)))
+
+				    (videoFrame.close)
+
+				    (controller.enqueue newFrame))
+					     
+					     )))
+
+				   
+				   
+
+				   ))))
+			   
+			   
 			   )
-		       (videoFrame.close)
-		       (controller.enqueue newFrame))
+		       
+		       )
 		     (space async
 		      (defun start ()
 			(console.log (string "hello"))
