@@ -45,8 +45,15 @@
 	   (:video :id "cam")
 	   "mod:"
 	   (:video :id "mod")
-	   
+	   (:script
+	    "start()")
 	   )))))
+    (defun lprint (&key (msg "") (vars `()))
+      `(console.log (string-backtick ,(format nil "~a ~{~a~^, ~}"
+					     msg
+					     (loop for v in vars
+						   collect
+						   (format nil "~a=${~a}" v v))))))
     (write-source (format nil "~a/source/get_video" *path*)
 		  `(let ((W 640)
 			 (H 480))
@@ -66,7 +73,7 @@
 				    0))
 			      ((curly deviceId)
 			       cam))
-			  (console.log (string-backtick "deviceId=${deviceId}"))
+			  ,(lprint :vars `(deviceId))
 			  (let ((constraints (dictionary
 					      :audio false
 					      :video
@@ -80,14 +87,16 @@
 						 (getUserMedia constraints))))
 				(camVideoTag (document.getElementById (string "cam")))
 				)
+			    ,(lprint :vars `(camStream))
 			    (setf camVideoTag.srcObject camStream)
-			    (let ((videoTrack (aref (dot camStream
-							 (getVideoTracks))
-						    0))
+			    ,(lprint :vars `(camVideoTag))
+			    (let (((list videoTrack) (dot camStream
+							  (getVideoTracks)))
 				  (trackProcessor (new (MediaStreamTrackProcessor
 							(dictionary :track videoTrack))))
 				  (trackGenerator (new (MediaStreamTrackGenerator
 							(dictionary :kind (string "video"))))))
+			      ,(lprint :vars `(videoTrack))
 			      (dot trackPocessor 
 				   readable
 				   (pipeThrough transformer)
