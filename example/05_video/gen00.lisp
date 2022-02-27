@@ -58,6 +58,46 @@
 		  `(let ((W 640)
 			 (H 480))
 
+		     (defun sat (val)
+		       (when (< 255 val)
+			 (return 255))
+		       (when (< val 0)
+			 (return 0))
+		       (return (logior val
+				       "0x00")))
+
+		     (let ((bufferYUV (new Uint8Array (/ (* 3 W H)
+						      2)))
+			   (bufferRGBA (new Uint8Array (* W H 4)))
+			   (transformer
+			    (new (TransformStream
+				  (curly
+				   (async (defun transform (videoFrame
+							    controller)
+					    (let ((coypResult (await (dot videoFrame
+									  (copyTo buffer))))
+						  ((dictionary
+						    :stride stride
+						    :offset Voffset)
+						   (aref copyResult 1))
+						  ((dictionary
+						    :offset Uoffset)
+						   (aref copyResult 2))
+						  (xUV 0)
+						  (yUV 0))
+					      (dotimes (y H)
+						(do0
+						 (setf yUV (* stride (>> y 1)))
+						 (dotimes (x W)
+						   (do0
+						    (setf xUV (>> x 1))
+						    (let ((Y (aref buffer (+ x (* y W))))
+							  (V (- (aref buffer (+ Voffset xUV yUV))
+								128))
+							  (U (- (aref buffer (+ Uoffset xUV yUV))
+								128))
+							  (R ())))))
+						 )))))))))))
 		     (space async
 		      (defun start ()
 			(console.log (string "hello"))
@@ -79,7 +119,7 @@
 					      :video
 					      (dictionary
 					       :width W
-					       :height H
+					       :owheight H
 					       :deviceId deviceId)))
 				(camStream (await
 					    (dot navigator
