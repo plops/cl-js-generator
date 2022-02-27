@@ -41,7 +41,10 @@
 	   
 	   (:title "video test"))
 	  (:body
+	   "cam:"
 	   (:video :id "cam")
+	   "mod:"
+	   (:video :id "mod")
 	   
 	   )))))
     (write-source (format nil "~a/source/get_video" *path*)
@@ -88,7 +91,12 @@
 			      (dot trackPocessor 
 				   readable
 				   (pipeThrough transformer)
-				   (pipeTo trackGenerator.writable)))))))
+				   (pipeTo trackGenerator.writable))
+			      (let ((streamAfter (new (MediaStream (list trackGenerator))))
+				    (modVideoTag (dot document
+						      (getElementById (string "mod")))))
+				(setf modVideoTag.srcObject
+				      streamAfter)))))))
 		     ))
     ))
 
