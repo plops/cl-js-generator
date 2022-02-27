@@ -96,8 +96,35 @@
 								128))
 							  (U (- (aref buffer (+ Uoffset xUV yUV))
 								128))
-							  (R ())))))
-						 )))))))))))
+							  (R (sat (+ Y (* 1.370705 V))))
+							  (G (sat (- Y (* 0.698001 V)
+								     (* 0.337633 U))))
+							  (B (sat (+ Y (* 1.732446 U)))))
+						      (when (< (* .6 (+ R B))
+							       G)
+							,@(loop for e in `(R G B) and e-i from 0
+								collect
+								`(setf ,e (aref pixelData.data (+ ,e-i
+												  (* x 4)
+												  (* y 4 W))))))
+						      ,@(loop for e in `(R G B 255)
+							      and e-i from 0
+							      collect
+							      `(setf (aref bufferRGBA (+ ,e-i
+											 (* 4 x)
+											 (* 4 y W)))
+								     ,e))
+						      )))
+						 )))))))))
+			   (init (dictionary :timestamp videoFrame.timestamp
+					     :codedWidth W
+					     :codedHeight H
+					     :format (string "RGBA")))
+			   (newFrame (new (VideoFrame bufferRGBA
+						      init)))
+			   )
+		       (videoFrame.close)
+		       (controller.enqueue newFrame))
 		     (space async
 		      (defun start ()
 			(console.log (string "hello"))
