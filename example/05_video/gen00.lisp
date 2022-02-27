@@ -66,17 +66,17 @@
 		       (return (logior val
 				       "0x00")))
 
-		     (let ((bufferYUV (new Uint8Array (/ (* 3 W H)
-						      2)))
-			   (bufferRGBA (new Uint8Array (* W H 4)))
+		     (let ((bufferYUV (new (Uint8Array (/ (* 3 W H)
+							  2))))
+			   (bufferRGBA (new (Uint8Array (* W H 4))))
 			   (transformer
 			    (new (TransformStream
 				  (curly
 				   (space async transform (paren videoFrame
 						     controller)
 					  (curly
-					   (let ((coypResult (await (dot videoFrame
-									 (copyTo buffer))))
+					   (let ((copyResult (await (dot videoFrame
+									 (copyTo bufferYUV))))
 						 ((curly 
 						   stride
 						   "offset:Voffset")
@@ -92,10 +92,10 @@
 						(dotimes (x W)
 						  (do0
 						   (setf xUV (>> x 1))
-						   (let ((Y (aref buffer (+ x (* y W))))
-							 (V (- (aref buffer (+ Voffset xUV yUV))
+						   (let ((Y (aref bufferYUV (+ x (* y W))))
+							 (V (- (aref bufferYUV (+ Voffset xUV yUV))
 							       128))
-							 (U (- (aref buffer (+ Uoffset xUV yUV))
+							 (U (- (aref bufferYUV (+ Uoffset xUV yUV))
 							       128))
 							 (R (sat (+ Y (* 1.370705 V))))
 							 (G (sat (- Y (* 0.698001 V)
@@ -105,9 +105,10 @@
 							      G)
 						       ,@(loop for e in `(R G B) and e-i from 0
 							       collect
-							       `(setf ,e (aref pixelData.data (+ ,e-i
-												 (* x 4)
-												 (* y 4 W))))))
+							       `(setf ,e Y 
+								      #+nil (aref pixelData.data (+ ,e-i
+											      (* x 4)
+											      (* y 4 W))))))
 						     ,@(loop for e in `(R G B 255)
 							     and e-i from 0
 							     collect
@@ -183,7 +184,7 @@
 				  (trackGenerator (new (MediaStreamTrackGenerator
 							(dictionary :kind (string "video"))))))
 			      ,(lprint :vars `(videoTrack))
-			      (dot trackPocessor 
+			      (dot trackProcessor 
 				   readable
 				   (pipeThrough transformer)
 				   (pipeTo trackGenerator.writable))
