@@ -170,7 +170,7 @@
 			    (format nil "~a"
 				    (emit `(curly ,@(loop for (e f) on args by #'cddr
 							  collect
-							  (format nil "~a: (~a)" (emit e) (emit f))))))))
+							  (format nil "~a: ~a" (emit e) (emit f))))))))
 	      (space
 		   ;; space {args}*
 		   (let ((args (cdr code)))
@@ -337,6 +337,14 @@
 			    (emit (second args)))))
 	      (// (let ((args (cdr code)))
 		    (format nil "((~a)//(~a))"
+			    (emit (first args))
+			    (emit (second args)))))
+	      (<< (let ((args (cdr code)))
+		    (format nil "((~a)<<(~a))"
+			    (emit (first args))
+			    (emit (second args)))))
+	      (>> (let ((args (cdr code)))
+		    (format nil "((~a)>>(~a))"
 			    (emit (first args))
 			    (emit (second args)))))
 	      (% (let ((args (cdr code)))

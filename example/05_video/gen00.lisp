@@ -72,50 +72,51 @@
 			   (transformer
 			    (new (TransformStream
 				  (curly
-				   (async (defun transform (videoFrame
-							    controller)
-					    (let ((coypResult (await (dot videoFrame
-									  (copyTo buffer))))
-						  ((dictionary
-						    :stride stride
-						    :offset Voffset)
-						   (aref copyResult 1))
-						  ((dictionary
-						    :offset Uoffset)
-						   (aref copyResult 2))
-						  (xUV 0)
-						  (yUV 0))
-					      (dotimes (y H)
-						(do0
-						 (setf yUV (* stride (>> y 1)))
-						 (dotimes (x W)
-						   (do0
-						    (setf xUV (>> x 1))
-						    (let ((Y (aref buffer (+ x (* y W))))
-							  (V (- (aref buffer (+ Voffset xUV yUV))
-								128))
-							  (U (- (aref buffer (+ Uoffset xUV yUV))
-								128))
-							  (R (sat (+ Y (* 1.370705 V))))
-							  (G (sat (- Y (* 0.698001 V)
-								     (* 0.337633 U))))
-							  (B (sat (+ Y (* 1.732446 U)))))
-						      (when (< (* .6 (+ R B))
-							       G)
-							,@(loop for e in `(R G B) and e-i from 0
-								collect
-								`(setf ,e (aref pixelData.data (+ ,e-i
-												  (* x 4)
-												  (* y 4 W))))))
-						      ,@(loop for e in `(R G B 255)
-							      and e-i from 0
-							      collect
-							      `(setf (aref bufferRGBA (+ ,e-i
-											 (* 4 x)
-											 (* 4 y W)))
-								     ,e))
-						      )))
-						 )))))))))
+				   (space async transform (paren videoFrame
+						     controller)
+					  (curly
+					   (let ((coypResult (await (dot videoFrame
+									 (copyTo buffer))))
+						 ((curly 
+						   stride
+						   "offset:Voffset")
+						  (aref copyResult 1))
+						 ((dictionary
+						   :offset Uoffset)
+						  (aref copyResult 2))
+						 (xUV 0)
+						 (yUV 0))
+					     (dotimes (y H)
+					       (do0
+						(setf yUV (* stride (>> y 1)))
+						(dotimes (x W)
+						  (do0
+						   (setf xUV (>> x 1))
+						   (let ((Y (aref buffer (+ x (* y W))))
+							 (V (- (aref buffer (+ Voffset xUV yUV))
+							       128))
+							 (U (- (aref buffer (+ Uoffset xUV yUV))
+							       128))
+							 (R (sat (+ Y (* 1.370705 V))))
+							 (G (sat (- Y (* 0.698001 V)
+								    (* 0.337633 U))))
+							 (B (sat (+ Y (* 1.732446 U)))))
+						     (when (< (* .6 (+ R B))
+							      G)
+						       ,@(loop for e in `(R G B) and e-i from 0
+							       collect
+							       `(setf ,e (aref pixelData.data (+ ,e-i
+												 (* x 4)
+												 (* y 4 W))))))
+						     ,@(loop for e in `(R G B 255)
+							     and e-i from 0
+							     collect
+							     `(setf (aref bufferRGBA (+ ,e-i
+											(* 4 x)
+											(* 4 y W)))
+								    ,e))
+						     )))
+						)))))))))
 			   (init (dictionary :timestamp videoFrame.timestamp
 					     :codedWidth W
 					     :codedHeight H
