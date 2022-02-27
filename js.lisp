@@ -166,10 +166,21 @@
 					(format s "~a:(~a)," (emit e) (emit f))))))
 			(format nil "{~a}" ;; remove trailing comma
 				(subseq str 0 (- (length str) 1))))))
+	      (dictionary (let* ((args (cdr code)))
+			    (format nil "~a"
+				    (emit `(curly ,@(loop for (e f) on args by #'cddr
+							  collect
+							  (format nil "~a: (~a)" (emit e) (emit f))))))))
 	      (space
 		   ;; space {args}*
 		   (let ((args (cdr code)))
 		     (format nil "~{~a~^ ~}" (mapcar #'emit args))))
+	      (await (let ((args (cdr code)))
+		       (format nil "~a" (emit `(space "await"
+						      ,@args)))))
+	      (async (let ((args (cdr code)))
+		       (format nil "~a" (emit `(space "async"
+						      ,@args)))))
 	      (indent (format nil "~{~a~}~a"
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
