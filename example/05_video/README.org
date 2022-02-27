@@ -1,3 +1,6 @@
 - goal: try to read camera as raw as possible. i don't think i can get
   the bayered raw data, but uncompressed YUV or RGB may be possible
 - https://medium.com/docler-engineering/manipulating-video-in-a-browser-5b37f8149d9b
+
+
+- closure compiler https://developers.google.com/closure/compiler/docs/gettingstarted_app

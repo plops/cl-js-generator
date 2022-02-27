@@ -1,1 +1,5 @@
-wget https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20220202/closure-compiler-v20220202.jar
+java -jar closure-compiler-v20220202.jar \
+     --formatting PRETTY_PRINT \
+     --js get_video.js \
+     --js_output_file get_video_compiled.js
+ 

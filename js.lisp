@@ -155,6 +155,8 @@
 	    (case (car code)
 	      (paren (let ((args (cdr code)))
 		       (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
+	      (curly (let ((args (cdr code)))
+		       (format nil "{~{~a~^, ~}}" (mapcar #'emit args))))
 	      (list (let ((args (cdr code)))
 		      (format nil "[~{~a~^, ~}]" (mapcar #'emit args))))
               (dict (let* ((args (cdr code)))
