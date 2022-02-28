@@ -45,7 +45,7 @@
 	   (:video :id "cam")
 	   "mod:"
 	   (:video :id "mod")
-	   #+nil (:script
+	   (:script
 	    "start()")
 	   )))))
     (defun lprint (&key (msg "") (vars `()))
@@ -86,8 +86,8 @@
 						  (aref copyResult 2))
 						 (xUV 0)
 						 (yUV 0))
-					     ,(lprint :msg "transform: new frame")
-
+					     ;,(lprint :msg "transform: new frame")
+					     
 					     (dotimes (y H)
 					       (do0
 						(setf yUV (* stride (>> y 1)))
@@ -121,23 +121,23 @@
 						     )))
 						))
 
-					     ,(lprint :msg "transform: frame processing finished")
+					     ;;,(lprint :msg "transform: frame processing finished")
 					     
 
 
 					     (do0
-				    (init (dictionary :timestamp videoFrame.timestamp
-						      :codedWidth W
-						      :codedHeight H
-						      :format (string "RGBA")))
+					      (let ((init (dictionary :timestamp videoFrame.timestamp
+								      :codedWidth W
+								      :codedHeight H
+								      :format (string "RGBA")))
 
-				    
-				    (newFrame (new (VideoFrame bufferRGBA
-							       init)))
+						    
+						    (newFrame (new (VideoFrame bufferRGBA
+									       init)))))
 
-				    (videoFrame.close)
+					      (videoFrame.close)
 
-				    (controller.enqueue newFrame))
+					      (controller.enqueue newFrame))
 					     
 					     )))
 
