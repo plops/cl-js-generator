@@ -4,4 +4,18 @@
 - https://github.com/webrtcHacks/still-image-from-webcam-stream-approaches/blob/master/5-readable.html
   - another example of how to use MediaStreamTrackProcessor
 
+- MediaStreamTrackProcessor is only supported in chrome >=94
+  - no support in firefox or safari
+
+
+
+
+
+
+
+
+
+
+
 - closure compiler https://developers.google.com/closure/compiler/docs/gettingstarted_app
+
