@@ -379,7 +379,7 @@
 			 ;;  for(count = 0; count < 10; count++){
 			 (with-output-to-string (s)
 			   (format s "~a"
-				   (emit `(for ((setf ,start 0) (< ,start ,end) (setf start (+ 1 start)))
+				   (emit `(for ((setf ,start 0) (< ,start ,end) (setf ,start (+ 1 ,start)))
 					       ,@body))))))
 	      (for-in (destructuring-bind ((vs ls) &rest body) (cdr code)
 			;; for (var property1 in object1) {

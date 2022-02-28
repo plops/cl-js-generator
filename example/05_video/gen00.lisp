@@ -45,7 +45,7 @@
 	   (:video :id "cam")
 	   "mod:"
 	   (:video :id "mod")
-	   (:script
+	   #+nil (:script
 	    "start()")
 	   )))))
     (defun lprint (&key (msg "") (vars `()))
@@ -86,6 +86,8 @@
 						  (aref copyResult 2))
 						 (xUV 0)
 						 (yUV 0))
+					     ,(lprint :msg "transform: new frame")
+
 					     (dotimes (y H)
 					       (do0
 						(setf yUV (* stride (>> y 1)))
@@ -118,6 +120,9 @@
 								    ,e))
 						     )))
 						))
+
+					     ,(lprint :msg "transform: frame processing finished")
+					     
 
 
 					     (do0
