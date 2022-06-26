@@ -35,7 +35,7 @@
 	   (:style "body { padding: 0; margin: 0;}")
 	   (:script :type "text/javascript"
 		    :src
-		    "../p5.js")
+		    "../p5.min.js")
 	   (:script :type "text/javascript"
 		    :src
 		    "sketch.js")
@@ -56,8 +56,10 @@
     (write-source (format nil "~a/source/00_first/sketch" *path*)
 		  `(do0
 		    (defun setup ()
-		      )
-		    (defun draw ())
+		      (CreateCanvas 400 400))
+		    (defun draw ()
+		      (background 220)
+		      (ellipse 50 50 80 80))
 		    ))
     ))
 

@@ -8,3 +8,6 @@ unzip p5.zip
 python -m http.server # apparently a python webserver is slow for big files
 #+end_example
 
+- source/00_first is supposed to draw a circle. it is not working on
+  chrome / android and i don't know how to see javascript errors to
+  debug any issues.
