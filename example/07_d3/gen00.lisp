@@ -32,7 +32,8 @@
 	   (:meta :name "viewport"
 		  :content "width=device-width, initial-scale=1.0")
 	   (:title "d3 example 00")
-	   (:style "body { padding: 0; margin: 0;}")
+	   (:style "body { padding: 0; margin: 0; overflow: hidden};"
+		   ".tick text { font-size: 24px; }")
 	   (:script :type "text/javascript"
 		    :src
 		    "https://d3js.org/d3.v7.min.js")
@@ -57,7 +58,54 @@
 			(format nil "~a=${~a}" v v))))))
     (write-source (format nil "~a/source/sketch" *path*)
 		  `(do0
-		    (defun tryd3 ()
+		    (setf (space const (curly csv select scaleLinear
+					 extent axisLeft axisBottom)
+				 )
+			  d3)
+		    (defun tryScatter ()
+		      (let ((csvUrl (string "https://gist.github.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv")
+			      :type const)
+			    (parseRaw (lambda (d)
+					,@(loop for e in `(sepal_width sepal_length)
+						collect
+						`(setf (dot d ,e) (space "+" (dot d ,e))))))
+			    (ma (space async
+				       (lambda ()
+					 (let ((data (space await (csv csvUrl parseRaw))
+						 :type const)
+					       (xValue (lambda (d) (dot d petal_length)))
+					       (yValue (lambda (d) (dot d petal_width)))
+					       (margin (dictionary
+							:top 20
+							:right 20
+							:bottom 20
+							:left 20))
+					       (x (dot (scaleLinear)
+						       (domain (extent data xValue))
+						       (range (list margin.left (- width margin.right))))
+						 :type const)
+					       (y (dot (scaleLinear)
+						       (domain (extent data yValue))
+						       (range (list (- height margin.top) margin.bottom)))
+						 :type const)
+					       (marks (dot data
+							   (map (lambda (d)
+								  (dictionary :x (x (xValue d))
+									      :y (y (yValue d))))))
+						 :type const)
+					       (width window.innerWidth)
+					       (height window.innerHeight)
+					       (svg (dot (select (string "body"))
+							 (append (string "svg"))
+							 ,@(loop for e in `(width height)
+								 collect
+								 `(attr (string ,e)
+									,e)))
+						 :type const)))))
+			      :type const)
+			    )
+			))
+		    #+nil (defun tryd3 ()
 		      (dot d3
 			 ;(select (string "body"))
 			 (selectAll (string "p"))
