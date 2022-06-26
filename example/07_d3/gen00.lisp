@@ -36,7 +36,7 @@
 	   (:script :type "text/javascript"
 		    :src
 		    "https://d3js.org/d3.v7.min.js")
-	   #+nil (:script :type "text/javascript"
+	   (:script :type "text/javascript"
 		    :src
 		    "sketch.js")
 	   #+nil (:link :rel "stylesheet"
@@ -44,7 +44,9 @@
 			:type "text/css")
 	   )
 	  (:body
-	   (:main))))))
+	   (:main
+	    (:h1 "this is a d3 test")
+	    (:p "this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. ")))))))
     (defun lprint (&key (msg "") (vars `()))
       `(console.log
 	(string-backtick
@@ -55,6 +57,28 @@
 			(format nil "~a=${~a}" v v))))))
     (write-source (format nil "~a/source/sketch" *path*)
 		  `(do0
+		    (defun tryd3 ()
+		      (dot d3
+			 ;(select (string "body"))
+			 (selectAll (string "p"))
+			 (style (string "color")
+				(lambda () (return (+ (string "hsl(")
+						      (* (Math.random)
+							 360)
+						      (string "100%,50%)")))))))
+
+		    (setf window.onload
+			  (lambda ()
+			    (dot d3
+			 ;(select (string "body"))
+			 (selectAll (string "p"))
+			 (style (string "color")
+				(lambda () (return (+ (string "hsl(")
+						      (* (Math.random)
+							 360)
+						      (string "100%,50%)"))))))
+			    (alert (string "page has loaded!"))))
+		    
 		    ))
     ))
 
