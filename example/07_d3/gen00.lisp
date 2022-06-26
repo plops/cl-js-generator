@@ -70,13 +70,9 @@
 		    (setf window.onload
 			  (lambda ()
 			    (dot d3
-			 ;(select (string "body"))
-			 (selectAll (string "p"))
-			 (style (string "color")
-				(lambda () (return (+ (string "hsl(")
-						      (* (Math.random)
-							 360)
-						      (string "100%,50%)"))))))
+				 (selectAll (string "p"))
+				 (style (string "color")
+					(string "blue")))
 			    (alert (string "page has loaded!"))))
 		    
 		    ))
