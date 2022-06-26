@@ -63,14 +63,15 @@
 			   :if-exists :supersede
 			   :if-does-not-exist :create)
 	  (write-sequence code-str s))
-	(sb-ext:run-program "/usr/bin/js-beautify" (list "-r" (namestring fn)))))))
+	#+sbcl (sb-ext:run-program "/usr/bin/js-beautify" (list "-r" (namestring fn)))))))
 
 
 (defun beautify-source (code)
   (let* ((code-str (emit-js
 		    :clear-env t
 		    :code code)))
-    (with-input-from-string (s code-str)
+    #-sbcl code-str
+    #+sbcl (with-input-from-string (s code-str)
       (with-output-to-string (o)
 	(sb-ext:run-program "/usr/bin/js-beautify" (list "-i") :input s :output o :wait t)))))
 
