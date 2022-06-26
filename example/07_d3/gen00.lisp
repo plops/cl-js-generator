@@ -66,13 +66,21 @@
 						      (* (Math.random)
 							 360)
 						      (string "100%,50%)")))))))
-
+;; https://blog.sentry.io/2016/01/04/client-javascript-reporting-window-onerror
+		    (setf window.onerror
+			  (lambda (msg src lineno colno error)
+			    (when error
+			      (alert (+ (string "error:")
+					msg
+					src lineno colno (JSON.stringify error))))
+			    (return true)))
 		    (setf window.onload
 			  (lambda ()
-			    (dot d3
-				 (selectAll (string "p"))
-				 (style (string "color")
-					(string "blue")))
+			    (tryd3)
+			    #+nil (dot d3
+				    (selectAll (string "p"))
+				    (style (string "color")
+					   (string "blue")))
 			    (alert (string "page has loaded!"))))
 		    
 		    ))
