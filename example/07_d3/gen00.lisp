@@ -40,6 +40,8 @@
 	   (:script :type "text/javascript"
 		    :src
 		    "sketch.js")
+	   (:link :rel "icon"
+		  :href "data:;base64,=")
 	   #+nil (:link :rel "stylesheet"
 			:href "style.css"
 			:type "text/css")
@@ -73,9 +75,9 @@
 						collect
 						`(setf (dot d ,e) (space "+" (dot d ,e))))
 					(return d)))
-			    (xValue (lambda (d) (dot d petal_length))
+			    (xValue (lambda (d) (return (dot d petal_length)))
 			      :type const)
-			    (yValue (lambda (d) (dot d sepal_length))
+			    (yValue (lambda (d) (return (dot d sepal_length)))
 				    :type const)
 			    (radius 5 :type const)
 			    (main (space async
@@ -118,8 +120,8 @@
 					      (selectAll (string "circle"))
 					      (data marks)
 					      (join (string "circle"))
-					      ,@(loop for  (e f) in `((cx (lambda (d) d.x))
-								      (cy (lambda (d) d.y))
+					      ,@(loop for  (e f) in `((cx (lambda (d) (return d.x)))
+								      (cy (lambda (d) (return d.y)))
 								      (r radius))
 						      collect
 						      `(attr (string ,e)
