@@ -48,8 +48,8 @@
 	   )
 	  (:body
 	   (:main
-	    (:h1 "this is a d3 test")
-	    (:p "this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. ")))))))
+	    #+nil (:h1 "this is a d3 test")
+	    #+nil (:p "this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. this is a test paragraph. ")))))))
     (defun lprint (&key (msg "") (vars `()))
       `(console.log
 	(string-backtick
@@ -168,7 +168,7 @@
 				       (selectAll (string "p"))
 				       (style (string "color")
 					      (string "blue")))
-			    (alert (string "page has loaded!"))))
+			    #+nil (alert (string "page has loaded!"))))
 		    
 		    ))
     ))
