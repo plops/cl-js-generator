@@ -59,62 +59,99 @@
     (write-source (format nil "~a/source/sketch" *path*)
 		  `(do0
 		    (setf (space const (curly csv select scaleLinear
-					 extent axisLeft axisBottom)
+					      extent axisLeft axisBottom)
 				 )
 			  d3)
 		    (defun tryScatter ()
-		      (let ((csvUrl (string "https://gist.github.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv")
+		      (let ((csvUrl (string "iris.csv"
+					    #+nil "/home/martin/stage/cl-js-generator/example/07_d3/https:/gist.github.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv")
 			      :type const)
 			    (parseRaw (lambda (d)
-					,@(loop for e in `(sepal_width sepal_length)
+					,@(loop for e in `(sepal_width sepal_length
+								       petal_length
+								       petal_width)
 						collect
-						`(setf (dot d ,e) (space "+" (dot d ,e))))))
-			    (ma (space async
-				       (lambda ()
-					 (let ((data (space await (csv csvUrl parseRaw))
-						 :type const)
-					       (xValue (lambda (d) (dot d petal_length)))
-					       (yValue (lambda (d) (dot d petal_width)))
-					       (margin (dictionary
-							:top 20
-							:right 20
-							:bottom 20
-							:left 20))
-					       (x (dot (scaleLinear)
-						       (domain (extent data xValue))
-						       (range (list margin.left (- width margin.right))))
-						 :type const)
-					       (y (dot (scaleLinear)
-						       (domain (extent data yValue))
-						       (range (list (- height margin.top) margin.bottom)))
-						 :type const)
-					       (marks (dot data
-							   (map (lambda (d)
-								  (dictionary :x (x (xValue d))
-									      :y (y (yValue d))))))
-						 :type const)
-					       (width window.innerWidth)
-					       (height window.innerHeight)
-					       (svg (dot (select (string "body"))
-							 (append (string "svg"))
-							 ,@(loop for e in `(width height)
-								 collect
-								 `(attr (string ,e)
-									,e)))
-						 :type const)))))
+						`(setf (dot d ,e) (space "+" (dot d ,e))))
+					(return d)))
+			    (xValue (lambda (d) (dot d petal_length))
+			      :type const)
+			    (yValue (lambda (d) (dot d sepal_length))
+				    :type const)
+			    (radius 5 :type const)
+			    (main (space async
+					 (lambda ()
+					   (let ((data (space await (csv csvUrl parseRaw))
+						   :type const)
+
+
+						 (margin (dictionary
+							  :top 20
+							  :right 20
+							  :bottom 20
+							  :left 20))
+						 (width window.innerWidth)
+						 (height window.innerHeight)
+
+						 (x (dot (scaleLinear)
+							 (domain (extent data xValue))
+							 (range (list margin.left (- width margin.right))))
+						   :type const)
+						 (y (dot (scaleLinear)
+							 (domain (extent data yValue))
+							 (range (list (- height margin.bottom) margin.top)))
+						   :type const)
+						 (marks (dot data
+							     (map (lambda (d)
+								    (return
+								     (dictionary :x (x (xValue d))
+										 :y (y (yValue d)))))))
+						   :type const)
+						 (svg (dot (select (string "body"))
+							   (append (string "svg"))
+							   ,@(loop for  e in `(width height)
+								   collect
+								   `(attr (string ,e)
+									  ,e)))
+						      :type const))
+					     (dot
+					      svg
+					      (selectAll (string "circle"))
+					      (data marks)
+					      (join (string "circle"))
+					      ,@(loop for  (e f) in `((cx (lambda (d) d.x))
+								      (cy (lambda (d) d.y))
+								      (r radius))
+						      collect
+						      `(attr (string ,e)
+							     ,f)))
+					     (dot
+					      svg
+					      (append (string "g"))
+					      (attr (string "transform")
+						    (string-backtick "translate(${margin.left},0)")
+						    )
+					      (call (axisLeft y)))
+					     (dot
+					      svg
+					      (append (string "g"))
+					      (attr (string "transform")
+						    (string-backtick "translate(0,${height - margin.bottom})")
+						    )
+					      (call (axisBottom y))))))
 			      :type const)
 			    )
+			(main)
 			))
 		    #+nil (defun tryd3 ()
-		      (dot d3
-			 ;(select (string "body"))
-			 (selectAll (string "p"))
-			 (style (string "color")
-				(lambda () (return (+ (string "hsl(")
-						      (* (Math.random)
-							 360)
-						      (string "100%,50%)")))))))
-;; https://blog.sentry.io/2016/01/04/client-javascript-reporting-window-onerror
+			    (dot d3
+					;(select (string "body"))
+				 (selectAll (string "p"))
+				 (style (string "color")
+					(lambda () (return (+ (string "hsl(")
+							      (* (Math.random)
+								 360)
+							      (string "100%,50%)")))))))
+		    ;; https://blog.sentry.io/2016/01/04/client-javascript-reporting-window-onerror
 		    (setf window.onerror
 			  (lambda (msg src lineno colno error)
 			    (when error
@@ -124,11 +161,11 @@
 			    (return true)))
 		    (setf window.onload
 			  (lambda ()
-			    (tryd3)
+			    (tryScatter)
 			    #+nil (dot d3
-				    (selectAll (string "p"))
-				    (style (string "color")
-					   (string "blue")))
+				       (selectAll (string "p"))
+				       (style (string "color")
+					      (string "blue")))
 			    (alert (string "page has loaded!"))))
 		    
 		    ))
