@@ -91,8 +91,8 @@
 							  :right 20
 							  :bottom 20
 							  :left 20))
-						 (width window.innerWidth)
-						 (height window.innerHeight)
+						 (width window.innerWidth :type const)
+						 (height window.innerHeight :type const)
 
 						 (x (dot (scaleLinear)
 							 (domain (extent data xValue))
@@ -139,7 +139,7 @@
 					      (attr (string "transform")
 						    (string-backtick "translate(0,${height - margin.bottom})")
 						    )
-					      (call (axisBottom y))))))
+					      (call (axisBottom x))))))
 			      :type const)
 			    )
 			(main)
