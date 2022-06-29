@@ -36,8 +36,13 @@ java -jar closure-compiler-v20220601.jar --help
 
 java -jar closure-compiler-v20220601.jar --js sketch.js --js_output_file sketch-compiled.js
 
+wget https://d3js.org/d3.v7.min.js
 java -jar closure-compiler-v20220601.jar \
      --compilation_level ADVANCED_OPTIMIZATIONS \
+     --js d3.v7.min.js \
      --js sketch.js \
      --js_output_file sketch-compiled.js
   #+end_example
+
+- visualizations of the components of d3: http://bl.ocks.org/bobbydavid/5808079
+  
