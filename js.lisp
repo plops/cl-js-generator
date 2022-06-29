@@ -171,6 +171,8 @@
 				    (emit `(curly ,@(loop for (e f) on args by #'cddr
 							  collect
 							  (format nil "~a: ~a" (emit e) (emit f))))))))
+	      (comments (let ((args (cdr code)))
+                          (format nil "~{// ~a~%~}" args)))
 	      (space
 	       ;; space {args}*
 	       (let ((args (cdr code)))
@@ -417,6 +419,34 @@
 			     (emit `(paren ,condition))
 			     (emit `(paren ,true-expr))
 			     (emit `(paren ,false-expr))))))
+	      (case
+		      ;; case keyform {normal-clause}* [otherwise-clause]
+		      ;; normal-clause::= (keys form*)
+		      ;; otherwise-clause::= (t form*)
+
+		      (destructuring-bind (keyform &rest clauses)
+			  (cdr code)
+			(format
+			 nil "switch(~a) ~a"
+			 (emit keyform)
+			 (emit
+			  `(progn
+			     ,@(loop for c in clauses collect
+				     (destructuring-bind (key &rest forms) c
+				       (if (eq key t)
+					   (format nil "default: ~a"
+						   (emit
+						    `(progn
+						       ,@forms #+nil (mapcar #'emit
+									     forms)
+						       break)))
+					   (format nil "case ~a: ~a"
+						   (emit key)
+						   (emit
+						    `(progn
+						       ,@forms #+nil (mapcar #'emit
+									     forms)
+						       break)))))))))))
 	      #+nil
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
