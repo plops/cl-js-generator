@@ -58,3 +58,6 @@ npm install d3
 npm install rollup --save-dev
 ./node_modules/.bin/rollup sketch.js --file bundle.js --format iife
 #+end_example
+
+- this guy makes a case against d3:
+  https://medium.com/@PepsRyuu/why-i-no-longer-use-d3-js-b8288f306c9a

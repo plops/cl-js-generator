@@ -1,11 +1,6 @@
-const {
-    csv,
-    select,
-    scaleLinear,
-    extent,
-    axisLeft,
-    axisBottom
-} = d3
+import {
+    scaleLinear
+} from "d3-scale"
 
 function tryScatter() {
     const csvUrl = "iris.csv";;

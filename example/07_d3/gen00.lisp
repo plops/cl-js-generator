@@ -60,10 +60,16 @@
 			(format nil "~a=${~a}" v v))))))
     (write-source (format nil "~a/source/sketch" *path*)
 		  `(do0
-		    (setf (space const (curly csv select scaleLinear
+		    ; "import * as d3 from \"d3\""
+		    #+nil (setf (space const (curly csv select scaleLinear
 					      extent axisLeft axisBottom)
 				 )
-			  d3)
+				d3)
+		    "import {scaleLinear} from \"d3-scale\""
+		    #+nil (space import (curly csv select scaleLinear
+					 extent axisLeft axisBottom)
+			   from
+			   (string "./d3.v7.min"))
 		    (defun tryScatter ()
 		      (let ((csvUrl (string "iris.csv"
 					    #+nil "/home/martin/stage/cl-js-generator/example/07_d3/https:/gist.github.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv")
