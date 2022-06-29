@@ -44,5 +44,8 @@ java -jar closure-compiler-v20220601.jar \
      --js_output_file sketch-compiled.js
   #+end_example
 
-- visualizations of the components of d3: http://bl.ocks.org/bobbydavid/5808079
-  
+- visualizations of the components of d3:
+  - treemap http://bl.ocks.org/bobbydavid/5808079
+  - dependencies: https://www.jasondavies.com/d3-dependencies/
+- description of how d3 is built with SMASH: https://github.com/d3/d3/issues/1330
+  - deprecated in favour of rollup
