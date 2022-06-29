@@ -1,0 +1,11 @@
+data visualization with d3 full course
+- video https://youtu.be/xkBheRZTkaw
+
+- how to load csv and visualize as scatter plot:
+https://vizhub.com/curran/9e556254c18b4266a8da5306fbee7f22
+
+- get the data file
+#+begin_example
+
+wget https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv
+#+end_example
