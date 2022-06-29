@@ -22,3 +22,22 @@ wget https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a
 python3 -m http.server
 http://0.0.0.0:8000/
 #+end_example
+
+- try google closure compiler
+- book: Closure: The Definitive Guide: Google Tools to Add Power to
+  Your JavaScript Closure: The Definitive Guide: Google Tools to Add
+  Power to Your JavaScript (2010)
+by Michael Bolin
+  #+begin_example
+firefox https://mvnrepository.com/artifact/com.google.javascript/closure-compiler
+# look for jar
+wget https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20220601/closure-compiler-v20220601.jar
+java -jar closure-compiler-v20220601.jar --help
+
+java -jar closure-compiler-v20220601.jar --js sketch.js --js_output_file sketch-compiled.js
+
+java -jar closure-compiler-v20220601.jar \
+     --compilation_level ADVANCED_OPTIMIZATIONS \
+     --js sketch.js \
+     --js_output_file sketch-compiled.js
+  #+end_example

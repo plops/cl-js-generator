@@ -89,8 +89,8 @@
 						 (margin (dictionary
 							  :top 20
 							  :right 20
-							  :bottom 20
-							  :left 20))
+							  :bottom 40
+							  :left 50))
 						 (width window.innerWidth :type const)
 						 (height window.innerHeight :type const)
 
