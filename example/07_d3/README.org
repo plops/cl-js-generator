@@ -49,3 +49,12 @@ java -jar closure-compiler-v20220601.jar \
   - dependencies: https://www.jasondavies.com/d3-dependencies/
 - description of how d3 is built with SMASH: https://github.com/d3/d3/issues/1330
   - deprecated in favour of rollup
+
+- try with npm
+#+begin_example
+cd ~/stage/cl-js-generator/example/07_d3/source/
+npm install d3
+# save-dev indicates that packages is not a core dependency
+npm install rollup --save-dev
+./node_modules/.bin/rollup sketch.js --file bundle.js --format iife
+#+end_example
