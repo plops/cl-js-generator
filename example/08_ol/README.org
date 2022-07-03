@@ -1,0 +1,4 @@
+- try open layers
+
+* installation
+- on android/termux `npm install ol`
