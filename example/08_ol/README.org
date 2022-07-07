@@ -5,3 +5,10 @@
 #+begin_example
 npm install ol
 #+end_example
+
+- on laptop (fedora)
+#+begin_example
+cd source
+npx create-ol-app
+npm start
+#+end_example
