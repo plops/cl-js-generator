@@ -3,8 +3,16 @@
 * installation
 - on android/termux 
 #+begin_example
+pkg install \
+  build-essential binutils \
+  python \
+  node yarn
+yarn global add code-server
+
 npm install ol
 #+end_example
+
+
 
 - on laptop (fedora)
 #+begin_example
@@ -12,3 +20,4 @@ cd source
 npx create-ol-app
 npm start
 #+end_example
+
