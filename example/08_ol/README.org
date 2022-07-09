@@ -10,6 +10,7 @@ pkg install \
 yarn global add code-server
 
 npm install ol
+
 #+end_example
 
 
@@ -21,3 +22,13 @@ npx create-ol-app
 npm start
 #+end_example
 
+* open layers workshop
+** rendering geojson
+- https://openlayers.org/workshop/en/vector/geojson.html
+#+begin_example
+https://github.com/openlayers/workshop/releases
+cd source01
+wget https://github.com/openlayers/workshop/releases/download/v6.8.1-en.5/openlayers-workshop-en.zip
+unzip openlayers-workshop-en.zip
+ln -s ../source/node_modules/ .
+#+end_example

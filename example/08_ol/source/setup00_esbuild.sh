@@ -1,9 +1,10 @@
 # create/fill node_modules directory with
 # npm install
 
+#--minify 
+    
 esbuild \
     --bundle \
-    --minify \
     --sourcemap \
     --target=chrome101 \
     --outfile=out.js \
