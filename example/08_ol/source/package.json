@@ -1,14 +1,6 @@
 {
   "name": "source",
   "version": "1.0.0",
-  "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^2.6.7"
-  },
   "dependencies": {
     "ol": "latest"
   }
