@@ -465,7 +465,10 @@
 			(destructuring-bind
 			      (target
 			       &rest rest) a
-			  (format s "import {~{~a~^,~}} from '~a'~%" rest target))))))
+			  (if (eq 1 (length rest))
+			      (format s "import ~{~a~} from '~a'~%" rest target)
+			      (format s "import {~{~a~^,~}} from '~a'~%" rest target)
+			      ))))))
 	      #+nil
 	      (imports (destructuring-bind (args) (cdr code)
 			 (format nil "~{~a~}" (mapcar #'(lambda (x) (emit `(import ,x))) args))))

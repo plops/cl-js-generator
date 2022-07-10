@@ -33,3 +33,9 @@ unzip openlayers-workshop-en.zip
 #ln -s ../source/node_modules/ .
 npm install kompas ol-hashed ol-mapbox-style
 #+end_example
+
+- install esbuild
+  #+begin_example
+git clone https://github.com/evanw/esbuild
+
+  #+end_example
