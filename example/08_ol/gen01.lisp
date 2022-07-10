@@ -12,6 +12,7 @@
   (defparameter *path* (format nil "~a/stage/cl-js-generator/example/~a"
 			       (user-homedir-pathname)
 			       *repo-sub-path*))
+  (defparameter *dir-num* "01")
   (defparameter *inspection-facts*
     `((10 "")))
   (defparameter *day-names*
@@ -20,7 +21,7 @@
       "Sunday"))
 
   (let* ()
-    (with-open-file (s (format nil "~a/source01/index.html" *path*)
+    (with-open-file (s (format nil "~a/source~a/index.html" *path* *dir-num*)
 		       :direction :output
 		       :if-exists :supersede
 		       :if-does-not-exist :create)
@@ -52,37 +53,11 @@
 			collect
 			(format nil "~a=${~a}" v v))))))
     (write-source
-     (format nil "~a/source01/main" *path*)
-
-					;import GeoJSON from 'ol/format/GeoJSON';
-					;import Map from 'ol/Map';
-					;import VectorLayer from 'ol/layer/Vector';
-					;import VectorSource from 'ol/source/Vector';
-					;import View from 'ol/View';
-
-     ;; new Map({
-     ;;   target: 'map-container',
-     ;;   layers: [
-     ;;     new VectorLayer({
-     ;;       source: new VectorSource({
-     ;;         format: new GeoJSON(),
-     ;;         url: './data/countries.json',
-     ;;       }),
-     ;;     }),
-     ;;   ],
-     ;;   view: new View({
-     ;;     center: [0, 0],
-     ;;     zoom: 2,
-     ;;   }),
-     ;; });
+     (format nil "~a/source~a/main" *path* *dir-num*)
 
 
      `(do0
        "import './style.css'"
-					;"import {Map, View} from 'ol'"
-					;"import TileLayer from 'ol/layer/Tile'"
-					;"import OSM from 'ol/source/OSM'"
-					; "import 'ol/ol.css'"
        (imports (ol/format/GeoJSON GeoJSON)
 		(ol/Map Map)
 		(ol/layer/Vector VectorLayer)
