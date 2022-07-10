@@ -66,6 +66,7 @@
 		(ol-hashed sync)
 		(ol/interaction/DragAndDrop DragAndDrop)
 		(ol/interaction/Modify Modify)
+		(ol/interaction/Draw Draw)
 		)
        (let ((source (new (VectorSource))
 	       :type const)
@@ -83,6 +84,9 @@
 	  (new (DragAndDrop (dictionary :source source
 					:formatConstructors (list GeoJSON)))))
 	 (map.addInteraction (new (Modify (dictionary :source source))))
+	 (map.addInteraction (new (Draw (dictionary :type (string "Polygon"
+								 )
+						   :source source))))
 	 (sync map))))
     ))
 
