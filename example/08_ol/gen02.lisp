@@ -85,8 +85,8 @@
 					:formatConstructors (list GeoJSON)))))
 	 (map.addInteraction (new (Modify (dictionary :source source))))
 	 (map.addInteraction (new (Draw (dictionary :type (string "Polygon"
-								 )
-						   :source source))))
+								  )
+						    :source source))))
 	 (sync map))))
     ))
 
