@@ -88,6 +88,7 @@
 		(ol/layer/Vector VectorLayer)
 		(ol/source/Vector VectorSource)
 		(ol/View View)
+		(ol-hashed sync)
 		)
        (let ((map
 	      (new (Map
@@ -101,6 +102,7 @@
 								  :url (string "openlayers-workshop-en/data/countries.json"))))))))
 		     :view (new (View (dictionary :center (list 0 0)
 						  :zoom 2))))))
-	       :type const)))))
+	       :type const))
+	 (sync map))))
     ))
 
