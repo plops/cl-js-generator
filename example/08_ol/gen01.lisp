@@ -20,7 +20,7 @@
       "Sunday"))
 
   (let* ()
-    (with-open-file (s (format nil "~a/source/index.html" *path*)
+    (with-open-file (s (format nil "~a/source01/index.html" *path*)
 		       :direction :output
 		       :if-exists :supersede
 		       :if-does-not-exist :create)
@@ -33,13 +33,13 @@
 		  :href "data:;base64,=")
 	   (:meta :name "viewport"
 		  :content "width=device-width, initial-scale=1.0")
-	   (:title "openlayers with vite")
+	   (:title "openlayers workshop geojson with esbuild")
 	   
 	   )
 	  (:body
-	   (:div :id "map")
+	   (:div :id "map-container")
 	   (:script :type "module"
-		    :src "./main.js"))))))
+		    :src "./out.js"))))))
     (defun lprint (&key (msg "") (vars `()))
       `(console.log
 	(string-backtick
@@ -48,20 +48,47 @@
 		  (loop for v in vars
 			collect
 			(format nil "~a=${~a}" v v))))))
-    (write-source (format nil "~a/source/main" *path*)
-		  `(do0
-		    "import './style.css'"
-		    "import {Map, View} from 'ol'"
-		    "import TileLayer from 'ol/layer/Tile'"
-		    "import OSM from 'ol/source/OSM'"
-		    (let ((map (new (Map (dictionary :target (string "map")
-						     :layers (list (new (TileLayer (dictionary :source (new OSM)))))
-						     :view (new (View (dictionary :center (list 0 0)
-										  :zoom 2))))))
-			   :type const)))))
+    (write-source
+     (format nil "~a/source01/main" *path*)
+
+;import GeoJSON from 'ol/format/GeoJSON';
+;import Map from 'ol/Map';
+;import VectorLayer from 'ol/layer/Vector';
+;import VectorSource from 'ol/source/Vector';
+;import View from 'ol/View';
+
+     
+     `(do0
+       "import './style.css'"
+       ;"import {Map, View} from 'ol'"
+       ;"import TileLayer from 'ol/layer/Tile'"
+       ;"import OSM from 'ol/source/OSM'"
+
+       (imports (ol/format/GeoJSON GeoJSON)
+		(ol/Map Map)
+		;(ol/layer/Vector VectorLayer)
+		;(ol/source/Vector VectorSource)
+		;(ol/View View)
+		)
+       (let ((map (new (Map (dictionary :target (string "map")
+					:layers (list (new (TileLayer (dictionary :source (new OSM)))))
+					:view (new (View (dictionary :center (list 0 0)
+								     :zoom 2))))))
+	       :type const)))))
     ))
 
 
 
 
 
+(let ((args (cdr `(imports (ol/format/GeoJSON GeoJSON)
+			   (ol/Map Map)
+			   (ol/layer/Vector Bla VectorLayer)
+					;(ol/source/Vector VectorSource)
+					;(ol/View View)
+		       ))))
+  (loop for a in args
+	collect
+	(destructuring-bind (target &rest rest) a
+	  (format nil "{~{~a~^,~}} ~a"
+		  rest target))))

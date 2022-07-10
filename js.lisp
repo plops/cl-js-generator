@@ -453,6 +453,19 @@
 			(if (listp args)
 			    (format nil "import ~a as ~a~%" (second args) (first args))
 			    (format nil "import ~a~%" args))))
+	      (imports
+	       ;; import {Map, View} from 'ol'
+               ;; import TileLayer from 'ol/layer/Tile'
+	       ;; (imports (ol Map View)
+	       ;;          (ol/layer/Tile TileLayer))
+	       (let ((args (cdr code)))
+		 (with-output-to-string (s)
+		  (loop for a in args
+			do
+			(destructuring-bind
+			      (target
+			       &rest rest) a
+			  (format s "import {~{~a~^,~}} from '~a'~%" rest target))))))
 	      #+nil
 	      (imports (destructuring-bind (args) (cdr code)
 			 (format nil "~{~a~}" (mapcar #'(lambda (x) (emit `(import ,x))) args))))
