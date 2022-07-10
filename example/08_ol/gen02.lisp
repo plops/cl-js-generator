@@ -64,23 +64,23 @@
 		(ol/source/Vector VectorSource)
 		(ol/View View)
 		(ol-hashed sync)
-		(ol/interaction/DragAndDrop)
+		(ol/interaction/DragAndDrop DragAndDrop)
 		)
        (let ((source (new (VectorSource))
 	       :type const)
+	     (layer (new (VectorLayer
+			  (dictionary :source source))))
 	     (map
 	      (new (Map
 		    (dictionary
 		     :target (string "map")
-		     :layers
-		     (list
-		      (new (VectorLayer
-			    (dictionary :source (new (VectorSource
-						      (dictionary :format (new (GeoJSON))
-								  :url (string "openlayers-workshop-en/data/countries.json"))))))))
 		     :view (new (View (dictionary :center (list 0 0)
 						  :zoom 2))))))
 	       :type const))
+	 (map.addLayer layer)
+	 (map.addInteraction
+	  (new (DragAndDrop (dictionary :source source
+					:formatConstructors (list GeoJSON)))))
 	 (sync map))))
     ))
 

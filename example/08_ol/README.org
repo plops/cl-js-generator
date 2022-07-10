@@ -22,6 +22,13 @@ npx create-ol-app
 npm start
 #+end_example
 
+
+- install esbuild
+  #+begin_example
+git clone https://github.com/evanw/esbuild
+
+  #+end_example
+
 * open layers workshop
 ** rendering geojson
 - https://openlayers.org/workshop/en/vector/geojson.html
@@ -34,8 +41,13 @@ unzip openlayers-workshop-en.zip
 npm install kompas ol-hashed ol-mapbox-style
 #+end_example
 
-- install esbuild
-  #+begin_example
-git clone https://github.com/evanw/esbuild
-
-  #+end_example
+** drag and drop
+#+begin_example
+mkdir source02
+cd source02
+ln -s \
+  ../source01/setup0?_*.sh \
+  ../source01/style.css \
+  ../source01/node_modules \
+  .
+#+end_example
