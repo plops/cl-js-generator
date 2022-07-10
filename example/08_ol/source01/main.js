@@ -5,6 +5,7 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import View from 'ol/View'
 import sync from 'ol-hashed'
+import DragAndDrop from 'ol/interaction/DragAndDrop'
 
 const map = new Map({
     target: "map",

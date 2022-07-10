@@ -34,8 +34,8 @@
 	   (:meta :name "viewport"
 		  :content "width=device-width, initial-scale=1.0")
 	   (:link :rel "stylesheet"
-			:href "out.css"
-			:type "text/css")
+		  :href "out.css"
+		  :type "text/css")
 	   (:title "openlayers with esbuild")
 	   )
 	  (:body
@@ -60,7 +60,7 @@
 						     :layers (list (new (TileLayer (dictionary :source (new OSM)))))
 						     :view (new (View (dictionary :center (list 0 0)
 										  :zoom 2))))))
-			   :type const)))))
+			    :type const)))))
     ))
 
 

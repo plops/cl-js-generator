@@ -34,10 +34,10 @@
 	   (:meta :name "viewport"
 		  :content "width=device-width, initial-scale=1.0")
 	   (:link :rel "stylesheet"
-			:href "out.css"
-			:type "text/css")
+		  :href "out.css"
+		  :type "text/css")
 	   (:title "openlayers workshop geojson with esbuild")
-	   
+
 	   )
 	  (:body
 	   (:div :id "map")
@@ -54,29 +54,29 @@
     (write-source
      (format nil "~a/source01/main" *path*)
 
-;import GeoJSON from 'ol/format/GeoJSON';
-;import Map from 'ol/Map';
-;import VectorLayer from 'ol/layer/Vector';
-;import VectorSource from 'ol/source/Vector';
-;import View from 'ol/View';
-    
-     ;; new Map({
-;;   target: 'map-container',
-;;   layers: [
-;;     new VectorLayer({
-;;       source: new VectorSource({
-;;         format: new GeoJSON(),
-;;         url: './data/countries.json',
-;;       }),
-;;     }),
-;;   ],
-;;   view: new View({
-;;     center: [0, 0],
-;;     zoom: 2,
-;;   }),
-;; });
+					;import GeoJSON from 'ol/format/GeoJSON';
+					;import Map from 'ol/Map';
+					;import VectorLayer from 'ol/layer/Vector';
+					;import VectorSource from 'ol/source/Vector';
+					;import View from 'ol/View';
 
-     
+     ;; new Map({
+     ;;   target: 'map-container',
+     ;;   layers: [
+     ;;     new VectorLayer({
+     ;;       source: new VectorSource({
+     ;;         format: new GeoJSON(),
+     ;;         url: './data/countries.json',
+     ;;       }),
+     ;;     }),
+     ;;   ],
+     ;;   view: new View({
+     ;;     center: [0, 0],
+     ;;     zoom: 2,
+     ;;   }),
+     ;; });
+
+
      `(do0
        "import './style.css'"
 					;"import {Map, View} from 'ol'"
