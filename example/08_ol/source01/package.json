@@ -1,0 +1,7 @@
+{
+  "name": "source",
+  "version": "1.0.0",
+  "dependencies": {
+    "ol": "latest"
+  }
+}
