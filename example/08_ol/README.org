@@ -30,5 +30,6 @@ https://github.com/openlayers/workshop/releases
 cd source01
 wget https://github.com/openlayers/workshop/releases/download/v6.8.1-en.5/openlayers-workshop-en.zip
 unzip openlayers-workshop-en.zip
-ln -s ../source/node_modules/ .
+#ln -s ../source/node_modules/ .
+npm install kompas ol-hashed ol-mapbox-style
 #+end_example

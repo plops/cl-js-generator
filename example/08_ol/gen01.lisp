@@ -56,9 +56,8 @@
 ;import VectorLayer from 'ol/layer/Vector';
 ;import VectorSource from 'ol/source/Vector';
 ;import View from 'ol/View';
-
-     
-;; new Map({
+    
+     ;; new Map({
 ;;   target: 'map-container',
 ;;   layers: [
 ;;     new VectorLayer({
