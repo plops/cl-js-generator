@@ -6,11 +6,11 @@ import VectorSource from 'ol/source/Vector'
 import View from 'ol/View'
 
 const map = new Map({
-    target: "map-container",
+    target: "map",
     layers: [new VectorLayer({
         source: new VectorSource({
             format: new GeoJSON(),
-            url: openlayers - workshop - en / data / countries.json
+            url: "openlayers-workshop-en/data/countries.json"
         })
     })],
     view: new View({

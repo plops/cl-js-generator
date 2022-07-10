@@ -33,11 +33,14 @@
 		  :href "data:;base64,=")
 	   (:meta :name "viewport"
 		  :content "width=device-width, initial-scale=1.0")
+	   (:link :rel "stylesheet"
+			:href "out.css"
+			:type "text/css")
 	   (:title "openlayers workshop geojson with esbuild")
 	   
 	   )
 	  (:body
-	   (:div :id "map-container")
+	   (:div :id "map")
 	   (:script :type "module"
 		    :src "./out.js"))))))
     (defun lprint (&key (msg "") (vars `()))
@@ -76,10 +79,10 @@
      
      `(do0
        "import './style.css'"
-       ;"import {Map, View} from 'ol'"
-       ;"import TileLayer from 'ol/layer/Tile'"
-       ;"import OSM from 'ol/source/OSM'"
-
+					;"import {Map, View} from 'ol'"
+					;"import TileLayer from 'ol/layer/Tile'"
+					;"import OSM from 'ol/source/OSM'"
+					; "import 'ol/ol.css'"
        (imports (ol/format/GeoJSON GeoJSON)
 		(ol/Map Map)
 		(ol/layer/Vector VectorLayer)
@@ -89,15 +92,15 @@
        (let ((map
 	      (new (Map
 		    (dictionary
-		     :target (string "map-container")
+		     :target (string "map")
 		     :layers
 		     (list
 		      (new (VectorLayer
 			    (dictionary :source (new (VectorSource
 						      (dictionary :format (new (GeoJSON))
-								  :url "openlayers-workshop-en/data/countries.json")))))))
-					:view (new (View (dictionary :center (list 0 0)
-								     :zoom 2))))))
+								  :url (string "openlayers-workshop-en/data/countries.json"))))))))
+		     :view (new (View (dictionary :center (list 0 0)
+						  :zoom 2))))))
 	       :type const)))))
     ))
 
