@@ -1,3 +1,8 @@
+|       |   |                        |
+| gen00 |   | osm tiles              |
+| gen01 |   | geojson, drag and drop |
+| gen02 |   | vector, edit           |
+| gen03 |   | geotiff                |
 - try open layers
 
 * installation
