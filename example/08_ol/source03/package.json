@@ -1,0 +1,10 @@
+{
+  "name": "source",
+  "version": "1.0.0",
+  "dependencies": {
+    "kompas": "^0.0.1",
+    "ol": "latest",
+    "ol-hashed": "^2.1.0",
+    "ol-mapbox-style": "^8.1.2"
+  }
+}

@@ -12,7 +12,7 @@
   (defparameter *path* (format nil "~a/stage/cl-js-generator/example/~a"
 			       (user-homedir-pathname)
 			       *repo-sub-path*))
-  (defparameter *dir-num* "02")
+  (defparameter *dir-num* "03")
   (defparameter *inspection-facts*
     `((10 "")))
   (defparameter *day-names*
@@ -37,7 +37,7 @@
 	   (:link :rel "stylesheet"
 		  :href "out.css"
 		  :type "text/css")
-	   (:title "openlayers workshop drag and drop")
+	   (:title "openlayers workshop geotiff")
 
 	   )
 	  (:body
@@ -58,35 +58,59 @@
 
      `(do0
        "import './style.css'"
-       (imports (ol/format/GeoJSON GeoJSON)
-		(ol/Map Map)
-		(ol/layer/Vector VectorLayer)
-		(ol/source/Vector VectorSource)
-		(ol/View View)
-		(ol-hashed sync)
-		(ol/interaction/DragAndDrop DragAndDrop)
-		(ol/interaction/Modify Modify)
-		(ol/interaction/Draw Draw)
-		)
-       (let ((source (new (VectorSource))
+       
+       (imports (ol/source/GeoTIFF.js GeoTIFF)
+		(ol/Map.js Map)
+		(ol/proj/Projection.js Projection)
+		(ol/layer/WebGLTile.js TileLayer)
+		(ol/View.js View)
+		(ol/extent.js "{getCenter}"))
+       
+
+       "// metadata from https://s3.us-west-2.amazonaws.com/sentinel-cogs/sentinel-s2-l2a-cogs/21/H/UB/2021/9/S2B_21HUB_20210915_0_L2A/S2B_21HUB_20210915_0_L2A.json"
+
+       (let ((projection
+	       (new (Projection
+		     (dictionary
+		      :code (string "EPSG:32721")
+		      :units (string "m"))))
 	       :type const)
-	     (layer (new (VectorLayer
-			  (dictionary :source source))))
+
+	     (sourceExtent
+	       (list 300000
+		     6090260
+		     409760
+		     6200020)
+	       :type const)
+	     (source
+	       (new (GeoTIFF
+		     (dictionary
+		      :sources
+		      (list
+		       (dictionary
+			:url
+			(string "TCI.tif"
+					;"https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/21/H/UB/2021/9/S2B_21HUB_20210915_0_L2A/TCI.tif"
+			 ))))))
+	       :type const)
+	     
+	     (layer (new (TileLayer
+			  (dictionary :source source)))
+		    :type const)
+	     
 	     (map
-	      (new (Map
-		    (dictionary
-		     :target (string "map")
-		     :view (new (View (dictionary :center (list 0 0)
-						  :zoom 2))))))
-	       :type const))
-	 (map.addLayer layer)
-	 (map.addInteraction
-	  (new (DragAndDrop (dictionary :source source
-					:formatConstructors (list GeoJSON)))))
-	 (map.addInteraction (new (Modify (dictionary :source source))))
-	 (map.addInteraction (new (Draw (dictionary :type (string "Polygon"
-								  )
-						    :source source))))
-	 (sync map))))
+	       (new (Map
+		     (dictionary
+		      :target (string "map")
+		      :layers (list layer)
+		      :view (new
+			     (View
+			      (dictionary
+			       :projection projection
+			       :center
+			       (getCenter sourceExtent)
+			       :zoom 1))))))
+	       :type const)))))
     ))
+
 
