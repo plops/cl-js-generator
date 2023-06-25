@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.config) {
     const { targeturl, outputdirectory } = message.config;
 
@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
         // Download the media files
         mediaUrls.forEach(function (url) {
-          chrome.downloads.download({ url: url, filename: outputdirectory + "/" + getFilename(url) });
+          browser.downloads.download({ url: url, filename: outputdirectory + "/" + getFilename(url) });
         });
       });
   }

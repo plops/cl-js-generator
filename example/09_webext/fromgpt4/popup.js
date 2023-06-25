@@ -3,5 +3,5 @@ document.getElementById("startButton").addEventListener("click", function () {
   const config = JSON.parse(configText);
 
   // Send the config to the background script
-  chrome.runtime.sendMessage({ config: config });
+  browser.runtime.sendMessage({ config: config });
 });
