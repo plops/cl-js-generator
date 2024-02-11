@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Wireframe Sphere</title>
-  </head>
-  <body>
-    <script type="module">
-
 import * as THREE from 'https://cdn.skypack.dev/three@0.141.0?min';
 
 const scene = new THREE.Scene();
@@ -43,6 +35,4 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-animate();    </script>
-  </body>
-</html>
+animate();
