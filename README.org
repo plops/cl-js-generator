@@ -1,3 +1,9 @@
+
+* Purpose and Scope
+
+The cl-js-generator repository provides a Common Lisp library for generating JavaScript code through a domain-specific language (DSL). This document provides a high-level introduction to the repository structure, core code generation architecture, and the collection of example applications that demonstrate practical usage patterns.
+
+
 - keywords: break case catch class const continue debugger default
   delete do else enum export extends false finally for function if
   implements import interface in instanceof let new package private
