@@ -22,23 +22,23 @@ Each example follows the same pattern:
 
  
 ** Electron Applications
-- *02_electron* – Bookmark Manager (localStorage + fetch) [1](#0-0) 
+- *02_electron* – Bookmark Manager (localStorage + fetch) 
 - *03_electron_capture* – Screen Recorder (desktopCapturer) 
-- *04_electron_scrape* – Web Scraper (webview + cheerio) [2](#0-1) 
+- *04_electron_scrape* – Web Scraper (webview + cheerio)
 
 ** Web Visualizations
-- *06_p5_js* – Canvas Graphics (setup + draw) [3](#0-2) 
-- *07_d3* – Scatter Plot (d3.csv + scales) [4](#0-3) 
+- *06_p5_js* – Canvas Graphics (setup + draw) 
+- *07_d3* – Scatter Plot (d3.csv + scales) 
 - *08_ol* – OpenLayers Mapping (4 variants):
-  - gen00: Basic OSM tiles [5](#0-4) 
-  - gen01: GeoJSON layer [6](#0-5) 
-  - gen02: Vector editing [7](#0-6) 
-  - gen03: GeoTIFF raster [8](#0-7) 
-- *10_three* – 3D Graphics (WebGL Scene) [9](#0-8) 
+  - gen00: Basic OSM tiles 
+  - gen01: GeoJSON layer 
+  - gen02: Vector editing 
+  - gen03: GeoTIFF raster 
+- *10_three* – 3D Graphics (WebGL Scene) 
 
 ** Browser APIs
 - *05_video* – Video Processing (MediaStreamTrackProcessor) 
-- *09_webext* – Browser Extension (downloads API) [10](#0-9) 
+- *09_webext* – Browser Extension (downloads API) 
 
 ** Notes
 - All examples follow a consistent generation pattern using `genXX.lisp` scripts that emit HTML via `cl-who` and JavaScript via `write-source` .
